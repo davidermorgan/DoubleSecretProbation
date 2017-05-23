@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Supervisor Type" max_length="40" name="x_107345_asgmt_supervisor_type" type="collection">
+        <element display="true" label="Short Description" max_length="60" name="short_description" type="string"/>
+        <element label="Supervisory Type" max_length="40" name="supervisory_type" type="integer"/>
+    </element>
+</database>

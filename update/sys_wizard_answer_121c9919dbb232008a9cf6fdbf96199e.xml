@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sys_wizard_answer">
+    <sys_wizard_answer action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <answer>Change Position Request</answer>
+        <button_label/>
+        <dependent_value/>
+        <element/>
+        <name>Change Position Request</name>
+        <next_question/>
+        <order>100</order>
+        <payload_name/>
+        <question display_value="Task" name="Task">87306b73db1132008a9cf6fdbf961985</question>
+        <roles/>
+        <script/>
+        <sys_class_name>sys_wizard_answer</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-17 02:50:09</sys_created_on>
+        <sys_customer_update>false</sys_customer_update>
+        <sys_id>121c9919dbb232008a9cf6fdbf96199e</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Change Position Request</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sys_wizard_answer_121c9919dbb232008a9cf6fdbf96199e</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-17 02:50:09</sys_updated_on>
+        <table/>
+        <target_url>x_107345_asgmt_change_position_request.do</target_url>
+        <type>1</type>
+    </sys_wizard_answer>
+</record_update>

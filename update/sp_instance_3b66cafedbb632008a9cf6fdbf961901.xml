@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_instance">
+    <sp_instance action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <class_name/>
+        <color>default</color>
+        <css/>
+        <glyph>briefcase</glyph>
+        <id/>
+        <order>1</order>
+        <short_description/>
+        <size>md</size>
+        <sp_column display_value="1">1d668232dbf632008a9cf6fdbf961970</sp_column>
+        <sp_widget display_value="Employee Bid Dv1">2813c232dbf632008a9cf6fdbf961974</sp_widget>
+        <sys_class_name>sp_instance</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-21 21:46:00</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>3b66cafedbb632008a9cf6fdbf961901</sys_id>
+        <sys_mod_count>2</sys_mod_count>
+        <sys_name>My Saved Positions &amp; Bid</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_instance_3b66cafedbb632008a9cf6fdbf961901</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-22 01:28:27</sys_updated_on>
+        <title>My Saved Positions &amp; Bid</title>
+        <url/>
+        <widget_parameters/>
+    </sp_instance>
+</record_update>

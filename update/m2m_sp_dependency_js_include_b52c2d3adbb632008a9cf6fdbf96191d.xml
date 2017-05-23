@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="m2m_sp_dependency_js_include">
+    <m2m_sp_dependency_js_include action="INSERT_OR_UPDATE">
+        <order>100</order>
+        <sp_dependency display_value="Angular Filter">fc9be57adbb632008a9cf6fdbf961991</sp_dependency>
+        <sp_js_include display_value="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.16/angular-filter.min.js">861c657adbb632008a9cf6fdbf96197c</sp_js_include>
+        <sys_class_name>m2m_sp_dependency_js_include</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-21 19:51:11</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>b52c2d3adbb632008a9cf6fdbf96191d</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Angular Filter.https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.16/angular-filter.min.js</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>m2m_sp_dependency_js_include_b52c2d3adbb632008a9cf6fdbf96191d</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-21 19:51:11</sys_updated_on>
+    </m2m_sp_dependency_js_include>
+</record_update>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Employee Saved Positions" max_length="40" name="x_107345_asgmt_employee_saved_positions" type="collection">
+        <element label="Comments" max_length="4000" name="comments" type="string"/>
+        <element default="javascript:gs.getUserID();" display="true" dynamic_default_value="2fd8e97bef3221002841f7f775c0fbc1" label="Employee" max_length="32" name="employee" read_only="true" reference="sys_user" type="reference" use_dynamic_default="true"/>
+        <element label="Position" max_length="32" name="position" read_only="true" reference="x_107345_asgmt_open_position_request" type="reference"/>
+        <index name="index">
+            <element name="position"/>
+        </index>
+        <index name="index2">
+            <element name="employee"/>
+        </index>
+    </element>
+</database>

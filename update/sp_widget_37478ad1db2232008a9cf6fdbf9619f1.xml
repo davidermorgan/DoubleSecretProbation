@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function ($scope, $location, spUtil, amb, $http) {
+	var c = this;
+	
+		c.server.get({name: "buildTable"}).then(function(r) {
+			c.data.values = r.data.values;
+		});
+	
+	c.newRecord = function(){
+		
+		console.log('newRecord');
+		
+		/*
+		spModal.open({
+			title: 'Request New Position'
+			//, widget: 'fed-form-new'
+			//, widgetInput: {table: 'hr_beneficiary', view: 'federal_beneficiaries_employee_input'}
+			, size: 'lg'
+			, buttons: []
+		}).then(function(){
+		})
+		*/
+	}
+		
+	c.onPosition = function(item){	
+		$scope.currentPosition=item;
+		
+		console.log('onPosition ' + $scope.currentPosition.position_name);
+		
+		/*
+		spModal.open({
+			title: 'View or Request Update to ' + $scope.currentPosition.position_name
+			//, widget: 'widget-form'
+			//, widgetInput: {table: 'hr_beneficiary', sys_id: $scope.currentBeneficiary.sys_id, view: 'federal_beneficiaries_employee_input'}
+			, size: 'lg'
+			, buttons: []
+		}).then(function(){
+		})
+		*/
+	}
+	
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>.panel-heading {
+  padding-left: 8px;
+}
+
+thead {
+  border-bottom: 1px solid #ddd;
+}
+
+table {
+  margin-bottom: 0;
+}
+
+.table &gt; thead &gt; tr &gt; th {
+  border: 1px solid #ddd;
+  cursor: pointer;
+  vertical-align: middle;
+  
+  &amp;:first-child {
+    border-left: none;
+  }
+  
+  &amp;:last-child {
+    border-right: none;
+  }
+}
+
+th i {
+  display: inline-block;
+  margin-left: 5px;
+  color: #A0A0A0;
+}
+
+th .disabled{
+  color:#ddd;
+}
+
+.th-title {
+  display: inline-block;
+  color: #428bca;
+}
+
+.panel-body {
+  overflow: auto;
+  padding: 0px;
+}
+
+
+.selected {
+  color: #fff;
+  background-color: #909090;
+  border-color: 1px solid #fff;
+}
+
+tbody tr:last-child {
+  border-bottom: none;
+}
+
+.pruned-msg {
+  padding-bottom: 10px; 
+  padding-left: 4px; 
+  text-align: center;
+}
+
+.pruned-msg-filter-pad {
+  padding-top:8px; 
+}
+
+.filter-breadcrumbs {
+  border-bottom: 1px solid #ddd;
+  padding-top: 3px;
+}
+
+a {color: $gray-extra-dark;}
+a:hover {transition: color 0.2s linear 0s, background 0.2s linear 0s; color: $deloitte-blue;}</css>
+        <data_table>sp_instance_table</data_table>
+        <demo_data>{"data":
+	{
+		"table": "incident",
+		"view": "default",
+		"o": "opened_at",
+		"d": "desc",
+		"filter": "activeEQtrue",
+		"p": 1,
+		"fields": "number,short_description"
+	}
+}</demo_data>
+        <description/>
+        <docs/>
+        <field_list>title,maximum_entries,glyph,color,sp_page,field_list,table,filter,order,order_by,order_direction</field_list>
+        <has_preview>false</has_preview>
+        <id>department_assignments</id>
+        <internal>false</internal>
+        <link><![CDATA[function(scope, element, attrs, ctrl){
+	var $ul, $contextMenu;
+	element.on('contextmenu', function(e){
+		var rowScope = angular.element(e.target).scope();
+		var field, item, fieldVal;
+
+		// Context Menu for tbody
+		if (angular.isDefined(rowScope.field) && angular.isDefined(rowScope.item)){
+			e.preventDefault();
+			field = rowScope.field;
+			item = rowScope.item;
+			fieldVal = item[field].value;
+			
+			var items = [
+				['${Show Matching}', function(){
+					ctrl.createQueryTerm(scope.data.table, field, item.sys_id, '=').then(function(term){
+						ctrl.showMatching(field, term);
+					});
+				}],
+				['${Filter Out}', function(){
+					ctrl.createQueryTerm(scope.data.table, field, item.sys_id, '!=').then(function(term){
+						ctrl.filterOut(field, term);
+					});
+				}]
+			];
+
+			renderContextMenu(items);
+			setContextMenuPosition(e);
+		}
+	});
+
+	function renderContextMenu(items){
+		var scrollHeight = $('body').get(0).scrollHeight;
+		$contextMenu = angular.element('<div>', {'class': 'dropdown clearfix context-dropdown open'});
+
+		$contextMenu.on('click', function (e) {
+			if ($(e.target).hasClass('dropdown')) {
+				_clearContextMenus(event);
+			}
+		});
+		$contextMenu.on('contextmenu', function (event) {
+			event.preventDefault();
+			_clearContextMenus(event);
+		});
+
+		$contextMenu.css({
+			position: 'absolute',
+			top: 0,
+			height: scrollHeight,
+			left: 0,
+			right: 0,
+			zIndex: 9999
+		});
+
+		$('body').append($contextMenu);
+
+		$ul = angular.element('<ul>', {
+			'class': 'dropdown-menu',
+			'role': 'menu'
+		});
+		renderItems();
+		$contextMenu.append($ul);
+
+		function renderItems(){
+			angular.forEach(items, function (item) {
+				var $li = angular.element('<li>');
+
+				if (item === null) {
+					$li.addClass('divider');
+				} else {
+					var $a = angular.element('<a>');
+					$a.attr({tabindex: '-1', href:'#'});
+					$a.text(item[0]);
+					$li.append($a);
+					$li.on('click', function (e) {
+						e.preventDefault();
+						scope.$apply(function () {
+							_clearContextMenus(e);
+							item[1].call(item, item);
+						});
+					});
+				}
+
+				$ul.append($li);
+			});
+		}
+	}
+
+	function _clearContextMenus(event){
+		if (!event){
+			return;
+		}
+
+		angular.element(event.currentTarget).removeClass('context');
+
+		var els = angular.element(".context-dropdown");
+		angular.forEach(els, function(el){
+			angular.element(el).remove();
+		});
+	}
+
+	var contextMenuItemHeight = 0;
+	function setContextMenuPosition(event){
+		if (contextMenuItemHeight === 0)
+			contextMenuItemHeight = $ul.children(0).height();
+
+		// Why not just call .width() and .height() on the container? Because those calculations cause browsers to reflow
+		// that can cause IE10 to take 200ms to render a context menu.
+		var cmWidth = 150;
+		var cmHeight = contextMenuItemHeight * $ul.children().length;
+		var startX = event.pageX + cmWidth >= window.innerWidth ? event.pageX - cmWidth : event.pageX;
+		var startY = event.pageY + cmHeight >= window.innerHeight ? event.pageY - cmHeight : event.pageY;
+
+		$ul.css({
+			display: 'block',
+			position: 'absolute',
+			left: startX,
+			top: startY,
+			'min-width': cmWidth
+		});
+	}
+}]]></link>
+        <name>Department Assignments</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+
+	var arr = [];
+	var count = 0;
+	
+	var queryStr1 = 'department=' + '221f79b7c6112284005d646b76ab978c';
+	var hr_position = new GlideRecord('hr_position');
+	hr_position.addEncodedQuery(queryStr1);
+	hr_position.query();
+	while(hr_position.next()) {		
+		var queryStr2 = 'position=' + hr_position.getValue('sys_id');		
+		var hr_profile = new GlideRecord('hr_profile');
+		hr_profile.addEncodedQuery(queryStr2);
+		hr_profile.query();
+		if (hr_profile.hasNext()) {
+			while(hr_profile.next()) {				
+				arr.push({
+					position_sys_id: hr_position.getValue('sys-id')
+					, position_name: hr_position.getValue('position')
+					, department_sys_id: hr_position.getValue('deparment')
+					, department_name: hr_position.getDisplayValue('department')
+					, supervisory_type: hr_position.getDisplayValue('u_supervisory_type')
+					, profile_sys_id: hr_profile.getValue('sys_id')
+					, profile_number: hr_profile.getValue('number')
+					, user_sys_id: hr_profile.getValue('user')
+					, user_name: hr_profile.getDisplayValue('user')
+				});
+			}
+		} else {
+			arr.push({
+				position_sys_id: hr_position.getValue('sys-id')
+				, position_name: hr_position.getValue('position')
+				, department_sys_id: hr_position.getDisplayValue('deparment')
+				, department_name: hr_position.getDisplayValue('department')
+				, supervisory_type: hr_position.getValue('u_supervisory_type')
+				, profile_sys_id: ''
+				, profile_number: ''
+				, user_sys_id: ''
+				, user_name: ''
+			});
+		}
+	
+	}
+	
+	data.list = arr;
+	data.updated = false;
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-04 19:43:15</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>37478ad1db2232008a9cf6fdbf9619f1</sys_id>
+        <sys_mod_count>59</sys_mod_count>
+        <sys_name>Department Assignments</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_widget_37478ad1db2232008a9cf6fdbf9619f1</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-05 03:34:12</sys_updated_on>
+        <template><![CDATA[ <div id="userList" class="table-responsive-vertical shadow-z-1" scrolling = "no">
+ 	<div class="panel panel-{{options.color}} b">
+		<div class="panel-heading form-inline" ng-hide="options.hide_header">
+			<span class="panel-title"><i ng-if="options.glyph" class="fa fa-{{options.glyph}} m-r"></i>My Department</span>
+			<!--<button name="new" type="button" class="btn btn-primary btn-sm m-l-xs" ng-click="newRecord()">${New}</button>-->
+			<div class="pull-right" ng-if="options.show_keywords">
+				<form ng-submit="setSearch(true)">
+					<div class="input-group">
+						<input type="text" name="datatable-search" ng-model="data.keywords" class="form-control" placeholder="${Keyword Search}">
+						<span class="input-group-btn">
+							<button name="search" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+						</span>
+					</div>
+				</form>
+			</div>
+			<div class="clearfix"></div>
+		</div>     
+		<table id="table" class="table table-sm table-responsive">
+			<div class="th-title">
+				<thead>
+					<tr class="h2">
+						<!--<td colspan=3 style="vertical-align:left">My Beneficiaries <button name="new" type="button" class="btn btn-primary btn-sm m-l-xs" ng-click="c.onWidget()">New</button></td>-->
+        	  <td colspan=1 style="text-align:left"><button name="new" type="button" class="btn btn-primary btn-sm m-l-xs" ng-click="c.newRecord()">Request New Position</button></td>
+ 						<td colspan=4 style="text-align:right"><a tabindex="0" class="glyphicon glyphicon-question-sign" role="button" data-toggle="popover" data-placement="bottom" data-trigger="focus" title="<Info Title>" data-content="<information>"></a></td>
+        	</tr>
+					<tr>
+						<th><b>Position</b></th>
+						<th><b>Department</b></th>
+						<th><b>Supervisory Type</b></th>
+						<th><b>HR Profile</b></th>
+						<th><b>User</b></th>
+            <!--<th><b>Action</b></th>-->
+					</tr>
+				</thead>
+			</div>
+			<tbody>
+				<tr ng-repeat="x in data.list track by $index">
+					<td class = "pointer" ng-click="c.onPosition(x)" style="color: black;">{{x.position_name}}</td>
+					<td style="color: black;">{{x.department_name}}</td>
+					<td style="color: black;">{{x.supervisory_type}}</td>
+					<td style="color: black;">{{x.profile_number}}</td>
+					<td style="color: black;">{{x.user_name}}</td>
+      	  <!--
+					<td ng-if="data.updated" style="color: black;">Updated</td>
+					<td ng-if="!data.updated" style="color: black;"><button name="update" type="button" class="btn btn-primary btn-sm m-l-xs" ng-click="c.update(x)">Request Update</button></td>
+					-->
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>]]></template>
+    </sp_widget>
+</record_update>

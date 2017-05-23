@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function($scope,spModal) {
+  /* widget controller */
+  var c = this;
+	
+	//Get option values
+	c.title = c.options.title || 'Position Map';
+	c.glyph = c.options.glyph || '';
+	
+	console.log('Options');
+	console.log(c.options);
+	
+	//Set value to show loading spinner
+	c.data.loading = true;
+	
+	//After page initially loads re-call server script to load data
+	c.server.get({
+		action: 'retrieve_data'
+	}).then(function(response) {
+		
+		//Set value to hide loading spinner
+		c.data.loading = false;
+		
+		console.log('Response');
+		console.log(response);
+		
+		//Get data
+		c.list = response.data.list;
+
+		initializeMap();
+		
+	});
+
+	getInfo = function() {  
+		spModal.open({
+			title: 'More Information'
+		}).then(function(){
+    });
+	}
+	
+	sendMessage = function() {
+		spModal.open({
+			title: 'Notice of Expression'
+		}).then(function(){
+    });
+	}
+	
+	savePosition = function(task_id) {
+		c.server.get({
+			action: 'save_position',
+			open_position: task_id
+		}).then(function(response) {
+		});
+	}
+	
+	removePosition = function(task_id) {
+		c.server.get({
+			action: 'remove_position',
+			open_position: task_id
+		}).then(function(response) {
+		});
+	}
+	
+	c.filter = function() {
+		
+		for (var i=0; i<c.list.length; i++) {
+			marker = $scope.markers[i];
+			
+			//filter countries
+			if (c.country_select) {
+				var countries = c.country_select;
+				
+				// If is same category or category not picked
+				if (countries.indexOf(marker.loc_country) != -1 || countries.length === 0) {
+					marker.setVisible(true);
+				}
+				// Categories don't match 
+				else {
+					marker.setVisible(false);
+				}
+			}
+			
+			//filter cities
+			if (c.city_select) {
+				var cities = c.city_select;
+				
+				// If is same category or category not picked
+				if (cities.indexOf(marker.loc_city) != -1 || cities.length === 0) {
+					marker.setVisible(true);
+				}
+				// Categories don't match 
+				else {
+					marker.setVisible(false);
+				}
+			}
+			
+		}
+		
+		$scope.markerCluster.clearMarkers();
+		initializeMapClusters();
+		
+	}
+	
+	function initializeMap() {
+		
+		//Angular App Module and Controller
+		//angular.module('mapsApp', [])
+		//	.controller('MapCtrl', function ($scope) {
+
+			var mapOptions = {
+				zoom: 4,
+				center: new google.maps.LatLng(40.0000, -98.0000),
+				mapTypeId: google.maps.MapTypeId.TERRAIN
+			}
+
+			$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		
+			$scope.markers = [];
+
+			var infoWindow = new google.maps.InfoWindow();
+
+			var createMarker = function (info){
+
+				var marker = new google.maps.Marker({
+					map: $scope.map,
+					position: new google.maps.LatLng(info.loc_lat, info.loc_long),
+					title: info.pos_name,
+					task_id: info.task_id,
+					pos_start_date: info.pos_start_date,
+					pos_end_date: info.pos_end_date,
+					loc_country: info.loc_country,
+					loc_city: info.loc_city
+					//label: 'A'
+				});
+				
+				marker.setVisible(true);
+				
+				marker.content = '<h4>' + marker.title + '</h4>' +
+					'<div>' +
+						'<div class="row">' +
+							'<div class="col-xs-6">' +
+								'<span><strong>Country</strong></span>' +
+								'<br><span>' + marker.loc_country + '</span>' +
+							'</div>' +
+							'<div class="col-xs-6">' +
+								'<span><strong>City</strong></span>' +
+								'<br><span>' + marker.loc_city + '</span>' +
+							'</div>' +
+						'</div>' +
+						'<br>' +
+						'<div class="row">' +
+							'<div class="col-xs-6">' +
+								'<span><strong>Start Date</strong></span>' +
+								'<br><span>' + marker.pos_start_date + '</span>' +
+							'</div>' +
+							'<div class="col-xs-6">' +
+								'<span><strong>End Date</strong></span>' +
+								'<br><span>' + marker.pos_end_date + '</span>' +
+							'</div>' +
+						'</div>' +
+						'<br>' +
+						'<div class="row">' +
+							'<div class="col-xs-12">' +
+								'<button name="info" type="button" class="btn btn-primary btn-block active" onclick="getInfo()">More Information</button>' +
+								'<button name="bid" type="button" class="btn btn-primary btn-block active" onclick="sendMessage()">Express Interest</button>' +
+								'<button name="bid" type="button" class="btn btn-primary btn-block active" value="'+marker.task_id+'" onclick="savePosition(this.value)">Save for Later</button>' +
+							'</div>' +
+						'</div>' +
+					'</div>';
+
+				google.maps.event.addListener(marker, 'click', function(){
+					infoWindow.setContent(marker.content);
+					infoWindow.open($scope.map, marker);
+				});
+
+				$scope.markers.push(marker);
+
+			}  
+
+			for (i = 0; i < c.list.length; i++){
+				createMarker(c.list[i]);
+			}
+
+			$scope.openInfoWindow = function(e, selectedMarker){
+				e.preventDefault();
+				google.maps.event.trigger(selectedMarker, 'click');
+			}
+			
+			initializeMapClusters();
+			
+		//});
+		
+	}
+	
+	function initializeMapClusters() {
+		var arr = [];
+		
+		for (i=0; i<c.list.length; i++) {
+			marker = $scope.markers[i];
+			
+			if (marker.getVisible()) {
+				arr.push(marker);
+			}
+		}
+		
+		// Add a marker clusterer to manage the markers.
+    $scope.markerCluster = new MarkerClusterer($scope.map, arr,
+			{imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+	}
+		
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>#map {
+	height:420px;
+  width:100%;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,glyph</field_list>
+        <has_preview>true</has_preview>
+        <id>position-map-dv1</id>
+        <internal>false</internal>
+        <link/>
+        <name>Position Map Dv1</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	
+	//Get user sys_id
+	var sys_user = gs.getUserID();
+	
+	//Do nothing on initial page load
+	if (!input) {
+		return;
+	}
+	
+	//After page initially loads get data
+	if (input && input.action == 'retrieve_data') {
+		
+		data.list = [];
+		var positions = [];
+		
+		var status_vacant = '4d045d55dbb232008a9cf6fdbf96192d';
+		
+		var query1= 'status=' + status_vacant;
+		var open_pos = new GlideRecord('x_107345_asgmt_open_position_request');
+		open_pos.addEncodedQuery(query1);
+		open_pos.query();
+		while(open_pos.next()) {
+			data.list.push({
+				task_id: open_pos.getValue('sys_id'),
+				task_num: open_pos.getValue('number'),
+				pos_id: open_pos.getValue('position'),
+				pos_name: open_pos.getDisplayValue('position'),
+				pos_start_date: open_pos.getValue('start_date'),
+				pos_end_date: open_pos.getValue('end_date'),
+				pos_status_id: open_pos.getValue('status'),
+				pos_status_name: open_pos.getDisplayValue('status'),
+				loc: open_pos.position.u_location.getRefRecord().getValue('sys_id'),
+				loc_name: open_pos.position.u_location.getRefRecord().getValue('name'),
+				loc_country: open_pos.position.u_location.getRefRecord().getValue('country'),
+				loc_city: open_pos.position.u_location.getRefRecord().getValue('city'),
+				loc_lat: open_pos.position.u_location.getRefRecord().getValue('latitude'),
+				loc_long: open_pos.position.u_location.getRefRecord().getValue('longitude')
+			});
+		}
+		
+	}
+	
+	if (input && input.action == 'save_position') {
+		
+		var save = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+		save.initialize();
+		save.employee = sys_user;
+		save.position = input.open_position;
+		save.insert();
+		
+	}
+	
+	if (input && input.action == 'remove_position') {
+		
+		/*
+		var save = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+		save.initialize();
+		save.employee = sys_user;
+		save.position = input.open_position;
+		save.insert();
+		*/
+		
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-20 14:24:53</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>50e71792db3232008a9cf6fdbf961958</sys_id>
+        <sys_mod_count>294</sys_mod_count>
+        <sys_name>Position Map Dv1</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_widget_50e71792db3232008a9cf6fdbf961958</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-22 00:55:36</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  
+	<div class="panel-heading">
+		<span class="panel-title"><i class="fa fa-{{c.glyph}}" aria-hidden="true"></i>&nbsp; {{c.title}}</span>
+	</div>
+  
+  <div class="panel-body" ng-if="c.data.loading">
+    
+    <span><i class="fa fa-spinner fa-spin fa-3x fafw"></i>
+      <span class="sr-only">Loading...</span>
+    </span>
+    
+  </div>
+  
+  <div class="panel-body">
+  
+    <div class="row">
+      <div class="col-xs-12">
+  			<div id="map"></div>
+      </div>
+    </div>
+    
+    <div class="row" ng-if="!c.data.loading">
+      <div class="col-xs-12">
+        <br>
+        <h4>MAP FILTER</h4>
+        
+        <!--
+        <label for="country">Country</label>
+				<multiselect  id="country" ng-model="selection" options="c.country_options" id-prop="id" display-prop="name" show-search="true"></multiselect>
+				-->
+
+        <form>
+          <div class="form-group">
+            <label for="country">Country (Hold CTRL to select more than one):</label>
+            <select multiple class="form-control" id="country" ng-model="c.country_select" ng-change="c.filter()">
+            	<option ng-repeat="item in c.list | unique: 'loc_country' track by $index">{{item.loc_country}}</option>
+            </select>
+            <label for="city">City (Hold CTRL to select more than one):</label>
+            <select multiple class="form-control" id="city" ng-model="c.city_select" ng-change="c.filter()">
+            	<option ng-repeat="item in c.list | unique: 'loc_city' track by $index">{{item.loc_city}}</option>
+            </select>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+    
+  </div>
+    
+</div>
+
+<!--
+<div class="container">
+	
+  <div class="row">
+
+  	<div class="col-xs-6">
+      <span><strong>Start Date</strong></span>
+      <br><span>info.pos_start_date</span>
+  	</div>
+  	<div class="col-xs-6">
+      <span><strong>End Date</strong></span>
+      <br><span>info.pos_end_date</span>
+  	</div>
+    
+  </div>
+  
+  <div class="row">
+
+  	<div class="col-xs-6">
+      <span><strong>Country</strong></span>
+      <br><span>info.loc_country</span>
+  	</div>
+  	<div class="col-xs-6">
+      <span><strong>City</strong></span>
+      <br><span>info.loc_city</span>
+  	</div>
+    
+  </div>
+  
+    <div class="row">
+
+  	<div class="col-xs-12">
+      <br>
+      <br><button name="info" type="button" class="btn btn-primary btn-block active" onclick="moreInfo()">More Information</button>
+      <button name="bid" type="button" class="btn btn-primary btn-block active" onclick="placeBid()">Submit Bid</button>
+  	</div>
+    
+  </div>
+  
+</div>
+-->]]></template>
+    </sp_widget>
+</record_update>

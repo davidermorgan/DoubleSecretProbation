@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element extends="task" label="Open Position Request" max_length="40" name="x_107345_asgmt_open_position_request" sizeclass="4" type="collection">
+        <element label="End Date" max_length="40" name="end_date" type="glide_date"/>
+        <element display="true" label="Position" max_length="32" name="position" reference="hr_position" type="reference"/>
+        <element label="Start Date" max_length="40" name="start_date" type="glide_date"/>
+        <element label="Status" max_length="32" name="status" reference="x_107345_asgmt_position_status" type="reference"/>
+    </element>
+</database>
