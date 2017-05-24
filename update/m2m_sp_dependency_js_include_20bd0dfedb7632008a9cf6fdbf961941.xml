@@ -3,7 +3,7 @@
     <m2m_sp_dependency_js_include action="INSERT_OR_UPDATE">
         <order>100</order>
         <sp_dependency display_value="Angular Bootstrap Multiselect">69bbc13edb7632008a9cf6fdbf9619b4</sp_dependency>
-        <sp_js_include display_value="x_107345_asgmt.Angular Bootstrap Multise">80eb81fedb7632008a9cf6fdbf9619ff</sp_js_include>
+        <sp_js_include display_value="https://cdn.rawgit.com/bentorfs/angular-bootstrap-multiselect/master/dist/angular-bootstrap-multiselect.min.js">80eb81fedb7632008a9cf6fdbf9619ff</sp_js_include>
         <sys_class_name>m2m_sp_dependency_js_include</sys_class_name>
         <sys_created_by>admin</sys_created_by>
         <sys_created_on>2017-05-21 17:38:07</sys_created_on>

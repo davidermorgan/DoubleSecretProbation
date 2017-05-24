@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update table="sp_widget">
     <sp_widget action="INSERT_OR_UPDATE">
-        <client_script><![CDATA[function($rootScope,$scope,spModal,snRecordWatcher) {
+        <client_script><![CDATA[function($rootScope,$scope,$timeout,spModal,snRecordWatcher) {
   /* widget controller */
   var c = this;
 	
@@ -72,23 +72,13 @@
     });
 	}
 	
-	//DM20170516 start: listen for table updates.
-	//NOTE: this should be reworked to decipher whether the event requires a server update or not
-	var query1 = 'employee=6816f79cc0a8016401c5a33be04be441'
-	snRecordWatcher.initList('x_107345_asgmt_employee_bid'); //for some reason I cannot get query1 to work
-	
-	var query2 = 'employee=' + c.sys_user;
-	snRecordWatcher.initList('x_107345_asgmt_employee_saved_positions'); //for some reason I cannot get query2 to work 
-	
-	$scope.$on('record.updated', function(name, data) {
-		if (data.table_name == 'x_107345_asgmt_employee_bid') {
+	//DM20170427 start: listen for recordAdded event and update table
+	$rootScope.$on('saveRemovePosition', function(event,data) {
+		$timeout(function() {
 			initialize();
-		}
-		if (data.table_name == 'x_107345_asgmt_employee_saved_positions') {
-			initialize();
-		}
-	});
-	//DM20170516 end
+		})
+	})
+	//DM20170427 end
 
 }]]></client_script>
         <controller_as>c</controller_as>
@@ -180,7 +170,7 @@
         <sys_created_on>2017-05-21 21:31:19</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>2813c232dbf632008a9cf6fdbf961974</sys_id>
-        <sys_mod_count>95</sys_mod_count>
+        <sys_mod_count>98</sys_mod_count>
         <sys_name>Employee Bid Dv1</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -188,7 +178,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sp_widget_2813c232dbf632008a9cf6fdbf961974</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-22 01:24:17</sys_updated_on>
+        <sys_updated_on>2017-05-24 18:38:22</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default table-responsive-vertical shadow-z-1" scrolling="no">
   
 	<div class="panel-heading">

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_ng_template">
+    <sp_ng_template action="INSERT_OR_UPDATE">
+        <id>star-button</id>
+        <sp_widget display_value="Position Map Dv2">24893e17db3232008a9cf6fdbf961955</sp_widget>
+        <sys_class_name>sp_ng_template</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-24 01:48:02</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>bc80912fdbb232008a9cf6fdbf961904</sys_id>
+        <sys_mod_count>37</sys_mod_count>
+        <sys_name>star-button</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_ng_template_bc80912fdbb232008a9cf6fdbf961904</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-24 17:22:45</sys_updated_on>
+        <template><![CDATA[<div>
+	<span class="panel-title">
+		<span id="{{sys_id}}" type="button" class="saved" ng-click="$parent.savePosition(marker_index)"><i class="fa fa-star" aria-hidden="true"></i></span>
+	<span>&nbsp; {{title}}</span>
+	</span>
+</div>]]></template>
+    </sp_ng_template>
+</record_update>

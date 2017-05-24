@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" extends="hr_case" label="Open Position Cases" max_length="40" name="x_107345_asgmt_open_position_cases" type="collection">
+        <element label="Backstop" max_length="40" name="backstop" type="string"/>
+        <element label="Contact Information" max_length="40" name="contact_information" type="string"/>
+        <element label="Contact Name" max_length="40" name="contact_name" type="string"/>
+        <element label="Critical Priority" max_length="40" name="critical_priority" type="string"/>
+        <element label="Grade" max_length="40" name="grade" type="string"/>
+        <element label="Language Requirement" max_length="40" name="language_requirement" type="string"/>
+        <element label="Language Requirement Score" max_length="40" name="language_requirement_score" type="string"/>
+        <element label="Location Latitude" max_length="40" name="location_latitude" type="float"/>
+        <element label="Location Longitude" max_length="40" name="location_longitude" type="float"/>
+        <element label="Location Name" max_length="40" name="location_name" type="string"/>
+        <element label="Organization" max_length="40" name="organization" type="string"/>
+        <element display="true" label="Position Name" max_length="40" name="position_name" type="string"/>
+        <element label="Position Number" max_length="40" name="position_number" type="integer"/>
+        <element label="Type" max_length="40" name="type" type="string"/>
+        <element label="Vacancy Date" max_length="40" name="vacancy_date" type="glide_date"/>
+    </element>
+</database>
