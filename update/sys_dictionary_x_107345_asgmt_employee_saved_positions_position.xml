@@ -38,7 +38,7 @@
         <primary>false</primary>
         <read_only>true</read_only>
         <read_roles/>
-        <reference display_value="" name="x_107345_asgmt_open_position_request">x_107345_asgmt_open_position_request</reference>
+        <reference display_value="" name="x_107345_asgmt_open_position_cases">x_107345_asgmt_open_position_cases</reference>
         <reference_cascade_rule/>
         <reference_floats>false</reference_floats>
         <reference_key/>
@@ -53,7 +53,7 @@
         <sys_created_on>2017-05-21 23:10:10</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>a1f816b6dbf632008a9cf6fdbf9619e9</sys_id>
-        <sys_mod_count>1</sys_mod_count>
+        <sys_mod_count>2</sys_mod_count>
         <sys_name>Position</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -61,7 +61,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sys_dictionary_x_107345_asgmt_employee_saved_positions_position</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-22 00:02:38</sys_updated_on>
+        <sys_updated_on>2017-05-25 20:09:41</sys_updated_on>
         <table_reference>false</table_reference>
         <text_index>false</text_index>
         <unique>false</unique>

@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function($scope,$compile,spModal) {
+  /* widget controller */
+  var c = this;
+	
+	$scope.count = 0;
+	
+	//Get option values
+	c.title = c.options.title || 'Position Map';
+	c.glyph = c.options.glyph || '';
+	
+	console.log('Options');
+	console.log(c.options);
+	
+	//Set value to show loading spinner
+	c.data.loading = true;
+	
+	//After page initially loads re-call server script to load data
+	c.server.get({
+		action: 'retrieve_data'
+	}).then(function(response) {
+		
+		//Set value to hide loading spinner
+		c.data.loading = false;
+		
+		console.log('Response');
+		console.log(response);
+		
+		//Get data
+		c.list = response.data.list;
+
+		//Get unique values
+		c.country_list = [];
+		c.city_list = [];
+		
+		c.showNavBar = false;
+		
+		//Create map, markers, and populate unique lists
+		initializeMap();
+		
+	});
+	
+	/* off-canvas sidebar toggle */
+	$('[data-toggle=offcanvas]').click(function() {
+		$('.row-offcanvas-left').toggleClass('active');
+		//$('.collapse').toggleClass('in').toggleClass('hidden-xs').toggleClass('visible-xs');
+	});
+	
+	c.checkNav = function() {
+		if (c.showNavBar) {
+			c.closeNav();
+		} else {
+			c.openNav();
+		}
+	}
+	
+	/* Set the width of the side navigation to 250px */
+	c.openNav = function() {
+		c.showNavBar = true;
+		
+		document.getElementById("sidebar").setAttribute("class", "col-xs-3");
+		document.getElementById("sidebarContent").setAttribute("class", "sidebarContentOpen");
+		document.getElementById("main").setAttribute("class", "col-xs-9");
+	}
+
+	/* Set the width of the side navigation to 0 */
+	c.closeNav = function() {
+		c.showNavBar = false;
+
+		document.getElementById("sidebar").setAttribute("class", "col-xs-1");
+		document.getElementById("sidebarContent").setAttribute("class", "sidebarContentClosed");
+		setTimeout(function() {
+			document.getElementById("main").setAttribute("class", "col-xs-11");
+		}, 400);
+	}
+	
+	getInfo = function() {		
+		spModal.open({
+			title: 'More Information'
+		}).then(function(){
+    });
+	}
+	
+	sendMessage = function() {
+		spModal.open({
+			title: 'Notice of Expression'
+		}).then(function(){
+    });
+	}
+	
+	saveRemovePosition = function(marker_index) {
+		
+		if ($scope.oms.a[marker_index].pos_saved) {
+			console.log('delete');
+			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "unsaved");
+			$scope.oms.a[marker_index].pos_saved = false;
+			c.server.get({
+				action: 'unsave_position',
+				position: $scope.oms.a[marker_index].sys_id
+			}).then(function(response) {
+				if (response.data.pos_unsaved) {
+					$rootScope.$broadcast('saveRemovePosition', response);
+				}
+			});
+		} else {
+			console.log('save');
+			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "saved");
+			$scope.oms.a[marker_index].pos_saved = true;
+			c.server.get({
+				action: 'save_position',
+				position: $scope.oms.a[marker_index].sys_id
+			}).then(function(response) {
+				if (response.data.pos_saved) {
+					$rootScope.$broadcast('saveRemovePosition', response);
+				}
+			});
+		}
+		
+	}
+	
+	c.filter = function() {
+
+		for (var i=0; i<c.list.length; i++) {
+			var marker = $scope.oms.a[i];
+			
+			//filter countries
+			if (c.country_select) {
+				var countries = c.country_select;
+				/*
+				if (countries.length !== 0) {
+					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
+				} else {
+					document.getElementById("filterIcon").setAttribute("class", "panel-title unfiltered");
+				}
+				*/
+				
+				// If is same category or category not picked
+				if (countries.indexOf(marker.loc_country) != -1 || countries.length === 0) {
+					marker.setVisible(true);
+				}
+				// Categories don't match 
+				else {
+					marker.setVisible(false);
+				}
+			}
+			
+			//filter cities
+			if (c.city_select) {
+				var cities = c.city_select;
+				/*
+				if (cities.length !== 0) {
+					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
+				} else {
+					document.getElementById("filterIcon").setAttribute("class", "panel-title unfiltered");
+				}
+				*/
+				
+				// If is same category or category not picked
+				if (cities.indexOf(marker.loc_city) != -1 || cities.length === 0) {
+					marker.setVisible(true);
+				}
+				// Categories don't match 
+				else {
+					marker.setVisible(false);
+				}
+			}
+			
+		}
+		
+		$scope.markerCluster.clearMarkers();
+		initializeMapClusters();
+		
+	}
+	
+	function initializeMap() {
+		
+		//Angular App Module and Controller
+		//angular.module('mapsApp', [])
+		//	.controller('MapCtrl', function ($scope) {
+
+			var mapOptions = {
+				zoom: 1, //1: World, 5: Landmass, 10: City, 15: Streets, 20: Buildings
+				minZoom: 1,
+				center: new google.maps.LatLng(0, 0), //new google.maps.LatLng(40.0000, -98.0000),
+				mapTypeId: google.maps.MapTypeId.TERRAIN
+			}
+
+			$scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		
+			//$scope.markers = [];
+			$scope.oms = new OverlappingMarkerSpiderfier($scope.map, {
+				markersWontMove: true, //default: false
+				//markersWontHide: false, //default: false
+				//basicFormatEvents: false, //default: false
+				keepSpiderfied: true, //default: false
+				//ignoreMapClick: false, //default: false
+				//nearbyDistance: 20, //default: 20
+				circleSpiralSwitchover: 9 //default: 9
+				//legWeight: 1.5 //default: 1.5
+			});
+		
+      $scope.oms.addListener('format', function(marker, status) {
+				setMarkerLabels(marker, status);
+				//var label = status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE ? '+' : null
+        //marker.setLabel(label);
+      });
+
+			var createMarker = function (info){
+				
+				//Store unique countries
+				if (c.country_list.indexOf(info.loc_country)===-1) {
+					c.country_list.push(info.loc_country);
+				}
+				//Store unique countries
+				if (c.city_list.indexOf(info.loc_city)===-1) {
+					c.city_list.push(info.loc_city);
+				}
+
+				var marker = new google.maps.Marker({
+					map: $scope.map,
+					position: new google.maps.LatLng(info.loc_lat, info.loc_long),
+					index: $scope.oms.a.length,
+					sys_id: info.sys_id,				
+					case_num: info.case_num,
+					pos_id: info.pos_id,
+					pos_name: info.pos_name,
+					pos_saved: info.pos_saved,
+					pos_start_date: info.pos_start_date,
+					pos_description: info.pos_description,
+					//status: open_pos.getValue('status'),
+					//status_name: open_pos.getDisplayValue('status'),
+					//department:
+					department_name: info.department_name,
+					//contact:
+					contact_name: info.contact_name,
+					contact_email: info.contact_email,
+					//loc: open_pos.position.u_location.getRefRecord().getValue('sys_id'),
+					loc_name: info.loc_name,
+					loc_lat: info.loc_lat,
+					loc_long: info.loc_long,
+					//backstop:
+					backstop_name: info.backstop_name,
+					//type:
+					type_name: info.type_name,
+					//grade
+					grade_name: info.grade_name,
+					//lang:
+					lang_name: info.lang_name,
+					lang_score: info.lang_score,
+					//criticality:
+					criticality_name: info.criticality_name
+				});
+				
+				marker.setVisible(true);
+				
+				$scope.oms.addMarker(marker);
+				
+				$scope.infoWindow = new google.maps.InfoWindow();
+				
+				google.maps.event.addListener(
+					marker,
+					'spider_click', 
+					(function(){
+						$scope.infoWindow.setContent(createContent(marker));
+						$scope.infoWindow.open($scope.map, marker);
+					})
+				);
+				
+				/*
+				google.maps.event.addListener(
+					marker,
+					'click', 
+					(function(marker, $scope){
+						return function() {
+							var marker_content = '<div><div ng-include="\'star-button\'"></div></div>';
+							$scope.sys_id = marker.sys_id;
+							$scope.marker_index = $scope.oms.a.length-1;
+							$scope.win = $scope.infoWindow;
+							//$scope.button_id = marker.task_id;
+							var compiledContent = $compile(marker_content)($scope);
+							$scope.$apply();
+							$scope.infoWindow.setContent(compiledContent[0].innerHTML);
+							$scope.infoWindow.open($scope.map, marker);
+						};
+				})(marker, $scope)
+				);
+				*/
+
+			}
+
+			for (i = 0; i < c.list.length; i++){
+				createMarker(c.list[i]);
+			}			
+		
+			$scope.openInfoWindow = function(e, selectedMarker){
+				e.preventDefault();
+				google.maps.event.trigger(selectedMarker, 'click');
+			}
+			
+			initializeMapClusters();
+		
+			/*
+			$scope.markerCluster.addListener('clusterclick', function(cluster) {
+				//do stuff here
+			});
+			*/
+			
+		//});
+		
+	}
+	
+	function createContent(marker) {
+		
+		var marker_content = '<div class="scrollFix">' +
+			'<p><span class="panel-title">'
+		
+		if (marker.pos_saved) {
+			marker_content += '<span id="'+marker.sys_id+'" type="button" class="saved" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';	
+		} else {
+			marker_content += '<span id="'+marker.sys_id+'" type="button" class="grey" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';
+		}
+		
+		marker_content += '<span>' + '&nbsp; ' + marker.pos_name + '</span>' +
+			'</span></p>';
+		
+		marker_content += '<div class="row">' +
+      '<div class="col-xs-12">' +
+				'<p style="border-bottom: 1px solid black;">' +
+					'<a href="mailto:'+marker.contact_email+'?subject=Notice of Expression - '+marker.pos_name+'"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp; Express Interest</a>' +
+				'</p>' +
+				'<div class="row">' +
+					'<div class="col-xs-6">' +
+						'<span><strong>Contact</strong></span>' +
+						'<br><span>'+marker.contact_name+'</span>' +
+					'</div>' +
+					'<div class="col-xs-6">' +
+					'<span><strong>Vacancy</strong></span>' +
+						'<br><span>'+marker.pos_start_date+'</span>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+    '</div>' +
+		'<br>' +
+    '<div class="row">' +
+      '<div class="col-xs-12">' +
+				'<p class="divider">' +
+					'<a href="#" onclick="getInfo()"><i class="fa fa-info" aria-hidden="true"></i>&nbsp; More Information</a>' +
+				'</p>' +
+				'<div class="row">' +
+					'<div class="col-xs-6">' +
+						'<span><strong>Location</strong></span>' +
+						'<br><span>'+marker.loc_name+'</span>' +
+					'</div>' +
+					'<div class="col-xs-6">' +
+					'<span><strong>Organization</strong></span>' +
+						'<br><span>'+marker.department_name+'</span>' +
+					'</div>' +
+				'</div>' +
+				'<div class="row">' +
+					'<div class="col-xs-6">' +
+						'<span><strong>Type</strong></span>' +
+						'<br><span>'+marker.type_name+'</span>' +
+					'</div>' +
+					'<div class="col-xs-6">' +
+					'<span><strong>Grade</strong></span>' +
+						'<br><span>'+marker.grade_name+'</span>' +
+					'</div>' +
+				'</div>' +
+				'<div class="row">' +
+					'<div class="col-xs-6">' +
+						'<span><strong>Language</strong></span>' +
+						'<br><span>'+marker.lang_name+'</span>' +
+					'</div>' +
+					'<div class="col-xs-6">' +
+					'<span><strong>Criticality</strong></span>' +
+						'<br><span>'+marker.criticality_name+'</span>' +
+					'</div>' +
+				'</div>' +
+			'</div>' +
+    '</div>';
+		
+		/*
+		marker_content += '<div>' +
+					'<div class="row">' +
+						'<div class="col-xs-6">' +
+							'<span><strong>Country</strong></span>' +
+							'<br><span>' + marker.loc_country + '</span>' +
+						'</div>' +
+						'<div class="col-xs-6">' +
+							'<span><strong>City</strong></span>' +
+							'<br><span>' + marker.loc_city + '</span>' +
+						'</div>' +
+					'</div>' +
+					'<br>' +
+					'<div class="row">' +
+						'<div class="col-xs-6">' +
+							'<span><strong>Start Date</strong></span>' +
+							'<br><span>' + marker.pos_start_date + '</span>' +
+						'</div>' +
+						'<div class="col-xs-6">' +
+							'<span><strong>End Date</strong></span>' +
+							'<br><span>' + marker.pos_end_date + '</span>' +
+						'</div>' +
+					'</div>' +
+					'<br>' +
+					'<div class="row">' +
+						'<div class="col-xs-12">' +
+							'<button name="info" type="button" class="btn btn-primary btn-block active" onclick="getInfo()">More Information</button>' +
+							'<button name="bid" type="button" class="btn btn-primary btn-block active" onclick="sendMessage()">Express Interest</button>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+		*/
+		
+		marker_content += '<div>';
+		
+		return marker_content;
+	}
+	
+	function setMarkerLabels (marker, status) {		
+		//var label = status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE ? '+' : null;
+		var label = status == OverlappingMarkerSpiderfier.markerStatus.SPIDERFIABLE ? '+' :
+    status == OverlappingMarkerSpiderfier.markerStatus.UNSPIDERFIABLE ? null : null
+		marker.setLabel(label);
+	}
+	
+	function initializeMapClusters() {
+		var arr = [];
+		
+		for (i=0; i<$scope.oms.a.length; i++) {
+			marker = $scope.oms.a[i];
+			
+			if (marker.getVisible()) {
+				arr.push(marker);
+			}
+		}
+		
+		// Add a marker clusterer to manage the markers.
+    $scope.markerCluster = new MarkerClusterer($scope.map, arr,
+			{
+				imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+				//zoomOnClick: true
+		});
+		
+		var minClusterZoom = 14;
+		$scope.markerCluster.setMaxZoom(minClusterZoom);
+		
+	}
+		
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css>#map {
+	height:420px;
+  width:100%;
+}
+
+.saved {
+    color: gold;
+}
+
+.unsaved {
+    color: grey;
+}
+
+.filtered {
+    color: #428bca;
+}
+
+.unfiltered {
+    color: grey;
+}
+
+#sidebar {
+	height: 100%;
+  float: left;
+	background-color: #eee;
+	overflow-x: hidden; /* Disable horizontal scroll */
+	transition: 0.4s; /* 0.5 second transition effect to slide in the sidenav */
+	min-width:42px;
+}
+
+#sidebarContent {
+  display: inline;
+  //white-space: nowrap;
+  //overflow: hidden;
+}
+
+.sidebarContentClosed {
+  text-align: center;
+}
+
+.sidebarContentOpen {
+  text-align: left;
+}
+
+#main {
+  	//transition: margin-left .4s;
+}
+
+.divider {
+    border-bottom: 1px solid black;
+}
+
+.scrollFix {
+    line-height: 1.35;
+    overflow: hidden;
+    white-space: nowrap;
+}</css>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,glyph</field_list>
+        <has_preview>true</has_preview>
+        <id>position_map_dv3</id>
+        <internal>false</internal>
+        <link/>
+        <name>Position Map Dv3</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	
+	//Get user sys_id
+	var sys_user = gs.getUserID();
+	
+	//Do nothing on initial page load
+	if (!input) {
+		return;
+	}
+	
+	//After page initially loads get data
+	if (input && input.action == 'retrieve_data') {
+		
+		data.list = [];
+		var positions = [];
+		
+		/*
+		var status_vacant = '4d045d55dbb232008a9cf6fdbf96192d';
+		
+		var query1= 'status=' + status_vacant;
+		var open_pos = new GlideRecord('x_107345_asgmt_open_position_request');
+		open_pos.addEncodedQuery(query1);
+		open_pos.query();
+		while(open_pos.next()) {
+			
+			var query2 = 'employee=' + sys_user;
+			query2 += '^position=' + open_pos.getValue('sys_id');
+			var saved_pos = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+			saved_pos.addEncodedQuery(query2);
+			saved_pos.query();
+			
+			var saved = (saved_pos.hasNext())? true : false;
+			
+			data.list.push({
+				sys_id: open_pos.getValue('sys_id'),
+				task_num: open_pos.getValue('number'),
+				saved: saved,
+				pos_id: open_pos.getValue('position'),
+				pos_name: open_pos.getDisplayValue('position'),
+				pos_start_date: open_pos.getValue('start_date'),
+				pos_end_date: open_pos.getValue('end_date'),
+				pos_status_id: open_pos.getValue('status'),
+				pos_status_name: open_pos.getDisplayValue('status'),
+				loc: open_pos.position.u_location.getRefRecord().getValue('sys_id'),
+				loc_name: open_pos.position.u_location.getRefRecord().getValue('name'),
+				loc_country: open_pos.position.u_location.getRefRecord().getValue('country'),
+				loc_city: open_pos.position.u_location.getRefRecord().getValue('city'),
+				loc_lat: open_pos.position.u_location.getRefRecord().getValue('latitude'),
+				loc_long: open_pos.position.u_location.getRefRecord().getValue('longitude')
+			});
+		}
+		*/
+		
+		//var query1= 'status=' + status_vacant;
+		var open_pos = new GlideRecord('x_107345_asgmt_open_position_cases');
+		//open_pos.addEncodedQuery(query1);
+		open_pos.query();
+		while(open_pos.next()) {
+			
+			var query2 = 'employee=' + sys_user;
+			query2 += '^position=' + open_pos.getValue('sys_id');
+			var saved_pos = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+			saved_pos.addEncodedQuery(query2);
+			saved_pos.query();
+			
+			var saved = (saved_pos.hasNext())? true : false;
+			
+			data.list.push({
+				sys_id: open_pos.getValue('sys_id'),
+				case_num: open_pos.getValue('number'),
+				pos_id: open_pos.getDisplayValue('position_number'),
+				pos_name: open_pos.getDisplayValue('position_name'),
+				pos_saved: saved,
+				pos_start_date: open_pos.getDisplayValue('vacancy_date'),
+				pos_description: open_pos.getDisplayValue('location_name'),
+				//status: open_pos.getValue('status'),
+				//status_name: open_pos.getDisplayValue('status'),
+				//department:
+				department_name: open_pos.getDisplayValue('organization'),
+				//contact:
+				contact_name: open_pos.getDisplayValue('contact_name'),
+				contact_email: open_pos.getDisplayValue('contact_information'),
+				//loc: open_pos.position.u_location.getRefRecord().getValue('sys_id'),
+				loc_name: open_pos.getDisplayValue('location_name'),
+				loc_lat: open_pos.getDisplayValue('location_latitude'),
+				loc_long: open_pos.getDisplayValue('location_longitude'),
+				//backstop:
+				backstop_name: open_pos.getDisplayValue('backstop'),
+				//type:
+				type_name: open_pos.getDisplayValue('type'),
+				//grade
+				grade_name: open_pos.getDisplayValue('grade'),
+				//lang:
+				lang_name: open_pos.getDisplayValue('language_requirement'),
+				lang_score: open_pos.getDisplayValue('language_requirement_score'),
+				//criticality:
+				criticality_name: open_pos.getDisplayValue('critical_priority')
+			});
+		}
+		
+	}
+	
+	if (input && input.action == 'save_position') {
+		
+		var save = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+		save.initialize();
+		save.employee = sys_user;
+		save.position = input.position;
+		save.insert();
+		
+		data.pos_saved = true;
+		
+	}
+	
+	if (input && input.action == 'unsave_position') {
+		
+		var query3 = 'employee=' + sys_user;
+		query3 += '^position=' + input.position;
+		var unsave = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+		unsave.addEncodedQuery(query3);
+		unsave.deleteMultiple();
+		
+		data.pos_unsaved = true;
+	
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-25 13:49:36</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>94cfb000db0332008a9cf6fdbf9619fa</sys_id>
+        <sys_mod_count>243</sys_mod_count>
+        <sys_name>Position Map Dv3</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_widget_94cfb000db0332008a9cf6fdbf9619fa</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-25 20:52:24</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default">
+  
+	<div class="panel-heading">
+		<span class="panel-title"><i class="fa fa-{{c.glyph}}" aria-hidden="true"></i>&nbsp; {{c.title}}</span>
+	</div>
+  
+  <div class="panel-body" ng-if="c.data.loading">
+    
+    <span><i class="fa fa-spinner fa-spin fa-3x fafw"></i>
+      <span class="sr-only">Loading...</span>
+    </span>
+    
+  </div>
+  
+  <div class="panel-body">
+		
+    <!--
+    <div id="mySidenav" class="sidenav" ng-if="!c.data.loading">
+      
+      <div class="panel-heading">
+        <div class="row">
+        	<div class="col-xs-10">
+        		<span class="panel-title"><i class="fa fa-{{c.filter}}" aria-hidden="true"></i>&nbsp; Filter Positions</span>
+          </div>
+          <div class="col-xs-2">
+            <span class="panel-title" ng-click="c.closeNav()"><i class="fa fa-times" aria-hidden="true"></i></span>
+          </div>
+        </div>
+      </div>
+
+     	<label for="country">&nbsp; Country</label>
+     	<multiselect  id="country" ng-model="c.country_select" options="c.country_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+     	<label for="country">&nbsp; City</label>
+     	<multiselect  id="country" ng-model="c.city_select" options="c.city_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+        
+    </div>
+
+    <div class="row" ng-if="!c.data.loading">
+    	<div class="col-xs-12">
+      	<span id="filterIcon" class="panel-title" ng-click="c.openNav()"><i class="fa fa-filter" aria-hidden="true"></i>&nbsp; Filter</span>
+      </div>
+    </div>
+		-->
+    
+      <div class="row">
+
+        <div id="sidebar" class="col-xs-1" ng-if="!c.data.loading">
+          <!-- sidebar -->
+          <div id="sidebarContent" class="sidebarContentClosed">
+            <ul class="nav">
+              <li>
+                <a href="#" ng-click="c.checkNav()"><i class="fa fa-filter" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; FILTER</span></a>
+              </li>
+              <li>
+                <p class="divider"></p>
+              </li>
+              <li>
+                <i class="fa fa-globe" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Country</span>
+              	<multiselect ng-if="c.showNavBar"  id="country" ng-model="c.country_select" options="c.country_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+            	</li>
+              <li>
+                <i class="fa fa-building" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; City</span>
+              	<multiselect  ng-if="c.showNavBar" id="country" ng-model="c.city_select" options="c.city_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+            	</li>
+            </ul>
+          </div>
+          <!-- /sidebar -->
+        </div>
+
+        <div id="main" class="col-xs-11">
+          <div id="map"></div>
+        </div>
+
+      </div>
+    
+  </div>
+    
+</div>]]></template>
+    </sp_widget>
+</record_update>
