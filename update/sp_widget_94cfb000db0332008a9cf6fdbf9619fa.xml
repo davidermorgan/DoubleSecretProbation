@@ -32,8 +32,8 @@
 		c.list = response.data.list;
 
 		//Get unique values
-		c.country_list = [];
-		c.city_list = [];
+		c.location_list = [];
+		c.department_list = [];
 		
 		c.showNavBar = false;
 		
@@ -125,9 +125,9 @@
 		for (var i=0; i<c.list.length; i++) {
 			var marker = $scope.oms.a[i];
 			
-			//filter countries
-			if (c.country_select) {
-				var countries = c.country_select;
+			//filter locations
+			if (c.loaction_select) {
+				var locations = c.loaction_select;
 				/*
 				if (countries.length !== 0) {
 					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
@@ -137,7 +137,7 @@
 				*/
 				
 				// If is same category or category not picked
-				if (countries.indexOf(marker.loc_country) != -1 || countries.length === 0) {
+				if (locations.indexOf(marker.loc_name) != -1 || locations.length === 0) {
 					marker.setVisible(true);
 				}
 				// Categories don't match 
@@ -146,9 +146,9 @@
 				}
 			}
 			
-			//filter cities
-			if (c.city_select) {
-				var cities = c.city_select;
+			//filter departments
+			if (c.department_select) {
+				var departments = c.department_select;
 				/*
 				if (cities.length !== 0) {
 					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
@@ -158,7 +158,7 @@
 				*/
 				
 				// If is same category or category not picked
-				if (cities.indexOf(marker.loc_city) != -1 || cities.length === 0) {
+				if (departments.indexOf(marker.department_name) != -1 || departments.length === 0) {
 					marker.setVisible(true);
 				}
 				// Categories don't match 
@@ -181,7 +181,7 @@
 		//	.controller('MapCtrl', function ($scope) {
 
 			var mapOptions = {
-				zoom: 1, //1: World, 5: Landmass, 10: City, 15: Streets, 20: Buildings
+				zoom: 2, //1: World, 5: Landmass, 10: City, 15: Streets, 20: Buildings
 				minZoom: 1,
 				center: new google.maps.LatLng(0, 0), //new google.maps.LatLng(40.0000, -98.0000),
 				mapTypeId: google.maps.MapTypeId.TERRAIN
@@ -210,12 +210,12 @@
 			var createMarker = function (info){
 				
 				//Store unique countries
-				if (c.country_list.indexOf(info.loc_country)===-1) {
-					c.country_list.push(info.loc_country);
+				if (c.location_list.indexOf(info.loc_name)===-1) {
+					c.location_list.push(info.loc_name);
 				}
-				//Store unique countries
-				if (c.city_list.indexOf(info.loc_city)===-1) {
-					c.city_list.push(info.loc_city);
+				//Store unique departments (organizations)
+				if (c.department_list.indexOf(info.department_name)===-1) {
+					c.department_list.push(info.department_name);
 				}
 
 				var marker = new google.maps.Marker({
@@ -472,8 +472,13 @@
     color: grey;
 }
 
+.row {
+	display: flex
+  //height: 100%
+}
+
 #sidebar {
-	height: 100%;
+	//height: 100%;
   float: left;
 	background-color: #eee;
 	overflow-x: hidden; /* Disable horizontal scroll */
@@ -496,7 +501,7 @@
 }
 
 #main {
-  	//transition: margin-left .4s;
+  	transition: 0.1s;
 }
 
 .divider {
@@ -656,7 +661,7 @@
         <sys_created_on>2017-05-25 13:49:36</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>94cfb000db0332008a9cf6fdbf9619fa</sys_id>
-        <sys_mod_count>243</sys_mod_count>
+        <sys_mod_count>258</sys_mod_count>
         <sys_name>Position Map Dv3</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -664,7 +669,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sp_widget_94cfb000db0332008a9cf6fdbf9619fa</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-25 20:52:24</sys_updated_on>
+        <sys_updated_on>2017-05-30 20:56:33</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   
 	<div class="panel-heading">
@@ -722,12 +727,12 @@
                 <p class="divider"></p>
               </li>
               <li>
-                <i class="fa fa-globe" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Country</span>
-              	<multiselect ng-if="c.showNavBar"  id="country" ng-model="c.country_select" options="c.country_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+                <i class="fa fa-globe" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Location</span>
+              	<multiselect ng-if="c.showNavBar"  id="location" ng-model="c.loaction_select" options="c.location_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
             	</li>
               <li>
-                <i class="fa fa-building" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; City</span>
-              	<multiselect  ng-if="c.showNavBar" id="country" ng-model="c.city_select" options="c.city_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+                <i class="fa fa-building" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Department</span>
+              	<multiselect  ng-if="c.showNavBar" id="department" ng-model="c.department_select" options="c.department_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
             	</li>
             </ul>
           </div>

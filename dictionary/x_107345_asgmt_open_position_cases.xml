@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
     <element audit="true" extends="hr_case" label="Open Position Cases" max_length="40" name="x_107345_asgmt_open_position_cases" sizeclass="9" type="collection">
-        <element label="Backstop" max_length="40" name="backstop" type="string"/>
         <element label="Contact Information" max_length="40" name="contact_information" type="string"/>
         <element label="Contact Name" max_length="40" name="contact_name" type="string"/>
         <element label="Critical Priority" max_length="40" name="critical_priority" type="string"/>

@@ -170,7 +170,7 @@
         <sys_created_on>2017-05-21 21:31:19</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>2813c232dbf632008a9cf6fdbf961974</sys_id>
-        <sys_mod_count>98</sys_mod_count>
+        <sys_mod_count>100</sys_mod_count>
         <sys_name>Employee Bid Dv1</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -178,7 +178,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sp_widget_2813c232dbf632008a9cf6fdbf961974</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-24 18:38:22</sys_updated_on>
+        <sys_updated_on>2017-05-30 20:40:05</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default table-responsive-vertical shadow-z-1" scrolling="no">
   
 	<div class="panel-heading">
@@ -198,10 +198,12 @@
     <div class="row">
       <div class="col-xs-12">
         
+        
         <div colspan=1 style="text-align:left; padding-bottom: 4px">
           <button name="createBid" type="button" class="btn btn-primary btn-sm m-l-xs" ng-if="!c.hasBid" ng-click="c.createBid()">Create New Bid</button>
           <button name="editBid" type="button" class="btn btn-primary btn-sm m-l-xs" ng-if="c.hasBid" ng-click="c.editBid()">Edit Bid</button>
         </div>
+				
         
   			<table id="table"class="table table-sm table-responsive">
 
