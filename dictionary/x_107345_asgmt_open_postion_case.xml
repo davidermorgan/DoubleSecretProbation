@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" extends="hr_case" label="Open Postion Case" max_length="40" name="x_107345_asgmt_open_postion_case" sizeclass="9" type="collection">
+        <element label="Backstop" max_length="32" name="backstop" reference="x_107345_asgmt_backstop" type="reference"/>
+        <element label="Contact" max_length="32" name="contact" reference="sys_user" type="reference"/>
+        <element label="Grade" max_length="32" name="grade" reference="x_107345_asgmt_position_grade" type="reference"/>
+        <element label="Language" max_length="32" name="language" reference="x_107345_asgmt_language" type="reference"/>
+        <element label="Language Score" max_length="32" name="language_score" reference="x_107345_asgmt_language_score" type="reference"/>
+        <element label="Organization" max_length="40" name="organization" type="string"/>
+        <element label="Position" max_length="32" name="position" reference="hr_position" type="reference"/>
+        <element label="Position Number" max_length="40" name="position_number" type="string"/>
+        <element label="Position Priority" max_length="32" name="position_priority" reference="x_107345_asgmt_priority" type="reference"/>
+        <element label="Type" max_length="32" name="type" reference="x_107345_asgmt_position_type" type="reference"/>
+        <element label="Vacancy Date" max_length="40" name="vacancy_date" type="glide_date"/>
+    </element>
+</database>

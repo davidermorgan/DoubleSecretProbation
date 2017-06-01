@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element label="Language" max_length="40" name="x_107345_asgmt_language" type="collection">
+        <element default="true" label="Active" max_length="40" name="active" type="boolean"/>
+        <element display="true" label="Code" max_length="40" name="code" type="string"/>
+        <element label="Description" max_length="1000" name="description" type="string"/>
+    </element>
+</database>

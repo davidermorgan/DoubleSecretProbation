@@ -2,9 +2,5 @@
 <database>
     <element extends="task" label="Employee Bid" max_length="40" name="x_107345_asgmt_employee_bid" sizeclass="2" type="collection">
         <element default="javascript:gs.getUserID();" display="true" dynamic_default_value="2fd8e97bef3221002841f7f775c0fbc1" label="Employee" max_length="32" name="employee" read_only="true" reference="sys_user" type="reference" use_dynamic_default="true"/>
-        <element label="Position 1" max_length="32" name="position_1" reference="x_107345_asgmt_open_position_request" type="reference"/>
-        <element label="Position 2" max_length="32" name="position_2" reference="x_107345_asgmt_open_position_request" type="reference"/>
-        <element label="Position 3" max_length="32" name="position_3" reference="x_107345_asgmt_open_position_request" type="reference"/>
-        <element label="Position 4" max_length="32" name="position_4" reference="x_107345_asgmt_open_position_request" type="reference"/>
     </element>
 </database>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function($rootScope,$scope,$timeout,spModal,snRecordWatcher) {
+  /* widget controller */
+  var c = this;
+	
+	//Get option values
+	c.title = c.options.title || 'My Bid';
+	c.glyph = c.options.glyph || '';
+	
+	console.log('Position Wishlist Options');
+	console.log(c.options);
+	
+	//Set value to show loading spinner
+	c.data.loading = true;
+	
+	//After page initially loads re-call server script to load data
+	initialize();
+	
+	function initialize() {
+		c.server.get({
+			action: 'retrieve_data'
+		}).then(function(response) {
+
+			//Set value to hide loading spinner
+			c.data.loading = false;
+
+			console.log('Position Wishlist Response');
+			console.log(response);
+
+			//Get data
+			c.sys_user = response.data.sys_user;
+			c.bid = response.data.bid;
+			c.hasBid = response.data.hasBid;
+			c.list = response.data.list;
+
+		});
+		
+	}
+	
+	c.createBid = function() {  
+		spModal.open({
+			title: 'My Bid',
+			widget: 'form_dv1',
+			widgetInput: {table: 'x_107345_asgmt_employee_bid', view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	c.editBid = function() {  
+		spModal.open({
+			title: 'My Bid',
+			widget: 'form_dv1',
+			widgetInput: {table: 'x_107345_asgmt_employee_bid', sys_id: c.bid[0].task_id, view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	c.openSavedPosition = function(item) {  
+		spModal.open({
+			title: 'Saved For Later',
+			widget: 'form_dv1',
+			widgetInput: {table: 'x_107345_asgmt_employee_saved_positions', sys_id: item.saved_id, view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	//DM20170427 start: listen for recordAdded event and update table
+	$rootScope.$on('saveRemovePosition', function(event,data) {
+		$timeout(function() {
+			initialize();
+		})
+	})
+	//DM20170427 end
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,glyph</field_list>
+        <has_preview>false</has_preview>
+        <id>position_wishlist_dv1</id>
+        <internal>false</internal>
+        <link/>
+        <name>Position Wishlist Dv1</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	
+	//Get user sys_id
+	var sys_user = gs.getUserID();
+	data.sys_user = sys_user;
+	
+	//Do nothing on initial page load
+	if (!input) {
+		return;
+	}
+	
+	//After page initially loads get data
+	if (input && input.action == 'retrieve_data') {
+		
+		data.bid = [];
+		data.hasBid = false;
+		
+		data.list = [];
+		
+		var query1= 'active=true';
+		query1 += '^employee=' + sys_user;
+		var bid = new GlideRecord('x_107345_asgmt_employee_bid');
+		bid.addEncodedQuery(query1);
+		bid.query();
+
+		data.hasBid = bid.hasNext();
+
+		while(bid.next()) {
+			data.bid.push({
+				task_id: bid.getValue('sys_id'),
+				task_num: bid.getValue('number')
+			});
+		}
+		
+		var query2= 'employee=' + sys_user;
+		var saved_pos = new GlideRecord('x_107345_asgmt_employee_saved_positions');
+		saved_pos.addEncodedQuery(query2);
+		saved_pos.query();
+		while(saved_pos.next()) {
+
+			var o_case = saved_pos.open_position_case.getRefRecord();
+			var pos = o_case.position.getRefRecord();
+			
+			data.list.push({
+				saved_id: saved_pos.getValue('sys_id'),
+				case_id: o_case.getValue('sys_id'),
+				pos: pos.getValue('sys_id'),
+				pos_name: o_case.getDisplayValue('position')
+			});
+		}
+		
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-05-31 19:26:16</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>a656cd8adb4332008a9cf6fdbf9619ad</sys_id>
+        <sys_mod_count>3</sys_mod_count>
+        <sys_name>Position Wishlist Dv1</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_widget_a656cd8adb4332008a9cf6fdbf9619ad</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-05-31 19:40:17</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default table-responsive-vertical shadow-z-1" scrolling="no">
+  
+	<div class="panel-heading">
+		<span class="panel-title"><i class="fa fa-{{c.glyph}}" aria-hidden="true"></i>&nbsp; {{c.title}}</span>
+	</div>
+  
+  <div class="panel-body" ng-if="c.data.loading">
+    
+    <span><i class="fa fa-spinner fa-spin fa-3x fafw"></i>
+      <span class="sr-only">Loading...</span>
+    </span>
+    
+  </div>
+  
+  <div class="panel-body" ng-if="!c.data.loading">
+  
+    <div class="row">
+      <div class="col-xs-12">	
+        
+  			<table id="table"class="table table-sm table-responsive">
+
+          <tr>
+            <th><b>Position</b></th>
+            <th><b>Country</b></th>
+            <th><b>City</b></th>
+            <th><b>Start Date</b></th>
+            <th><b>End Date</b></th>
+          </tr>
+
+          <tbody>
+            <tr ng-repeat="item in c.list track by $index">
+              <td class = "pointer" ng-click="c.openSavedPosition(item)" ><a>{{ item.pos_name }}</a></td>                      
+              <td style="color: black;">{{ item.loc_country }}</td>
+              <td style="color: black;">{{ item.loc_city }}</td>
+              <td style="color: black;">{{ item.pos_start_date }}</td>
+              <td style="color: black;">{{ item.pos_end_date }}</td>
+          	</tr>
+          </tbody>
+          
+        </table>
+      </div>
+    </div>
+    
+</div>]]></template>
+    </sp_widget>
+</record_update>
