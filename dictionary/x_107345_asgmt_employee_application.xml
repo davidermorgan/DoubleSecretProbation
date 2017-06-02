@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+    <element audit="true" extends="hr_case" label="Employee Application" max_length="40" name="x_107345_asgmt_employee_application" type="collection">
+        <element label="Bid" max_length="32" name="bid" reference="x_107345_asgmt_employee_bid" type="reference"/>
+        <element label="Cycle" max_length="32" name="cycle" reference="x_107345_asgmt_cycle" type="reference"/>
+        <element label="Rank" max_length="40" name="rank" type="integer"/>
+    </element>
+</database>

@@ -7,7 +7,7 @@
         <element label="Language" max_length="32" name="language" reference="x_107345_asgmt_language" type="reference"/>
         <element label="Language Score" max_length="32" name="language_score" reference="x_107345_asgmt_language_score" type="reference"/>
         <element label="Organization" max_length="40" name="organization" type="string"/>
-        <element label="Position" max_length="32" name="position" reference="hr_position" type="reference"/>
+        <element display="true" label="Position" max_length="32" name="position" reference="hr_position" type="reference"/>
         <element label="Position Number" max_length="40" name="position_number" type="string"/>
         <element label="Position Priority" max_length="32" name="position_priority" reference="x_107345_asgmt_priority" type="reference"/>
         <element label="Type" max_length="32" name="type" reference="x_107345_asgmt_position_type" type="reference"/>

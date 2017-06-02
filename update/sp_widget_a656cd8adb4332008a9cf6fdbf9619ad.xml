@@ -6,7 +6,7 @@
   var c = this;
 	
 	//Get option values
-	c.title = c.options.title || 'My Bid';
+	c.title = c.options.title || 'My Saved Positions';
 	c.glyph = c.options.glyph || '';
 	
 	console.log('Position Wishlist Options');
@@ -39,22 +39,27 @@
 		
 	}
 	
-	c.createBid = function() {  
-		spModal.open({
-			title: 'My Bid',
-			widget: 'form_dv1',
-			widgetInput: {table: 'x_107345_asgmt_employee_bid', view: 'Employee_View'},
-			size: 'lg' ,
-			buttons: []
-		}).then(function(){
-    });
+	c.removePosition = function(item) {
+		//console.log('delete');
+		document.getElementById(item.case_id).setAttribute("class", "unsaved");
+		//$scope.oms.a[marker_index].pos_saved = false;
+		/*
+		c.server.get({
+			action: 'unsave_position',
+			position: $scope.oms.a[marker_index].sys_id
+		}).then(function(response) {
+			if (response.data.pos_unsaved) {
+				$rootScope.$broadcast('saveRemovePosition', response);
+			}
+		});
+		*/
 	}
 	
-	c.editBid = function() {  
+	c.getInfo = function(item) {		
 		spModal.open({
-			title: 'My Bid',
-			widget: 'form_dv1',
-			widgetInput: {table: 'x_107345_asgmt_employee_bid', sys_id: c.bid[0].task_id, view: 'Employee_View'},
+			title: item.pos_name,
+			widget: 'form_dv2',
+			widgetInput: {table: 'x_107345_asgmt_open_postion_case', sys_id: item.case_id, view: 'Employee_View'},
 			size: 'lg' ,
 			buttons: []
 		}).then(function(){
@@ -63,8 +68,8 @@
 	
 	c.openSavedPosition = function(item) {  
 		spModal.open({
-			title: 'Saved For Later',
-			widget: 'form_dv1',
+			title: item.pos_name,
+			widget: 'form_dv3',
 			widgetInput: {table: 'x_107345_asgmt_employee_saved_positions', sys_id: item.saved_id, view: 'Employee_View'},
 			size: 'lg' ,
 			buttons: []
@@ -78,11 +83,23 @@
 			initialize();
 		})
 	})
+
+	$rootScope.$on('savePositionComments', function(event,data) {
+		$timeout(function() {
+			initialize();
+		})
+	})
 	//DM20170427 end
 
 }]]></client_script>
         <controller_as>c</controller_as>
-        <css/>
+        <css>.saved {
+    color: gold;
+}
+
+.unsaved {
+    color: grey;
+}</css>
         <data_table>sp_instance</data_table>
         <demo_data/>
         <description/>
@@ -139,13 +156,22 @@
 		while(saved_pos.next()) {
 
 			var o_case = saved_pos.open_position_case.getRefRecord();
-			var pos = o_case.position.getRefRecord();
+			
+			var comment = (saved_pos.getValue('comments'))? saved_pos.getValue('comments') : '';
+			
+			if (comment.trim().length==0) {
+				comment = '--click here to add comment--'
+			}
 			
 			data.list.push({
 				saved_id: saved_pos.getValue('sys_id'),
+				saved_comments: comment,
 				case_id: o_case.getValue('sys_id'),
-				pos: pos.getValue('sys_id'),
-				pos_name: o_case.getDisplayValue('position')
+				pos: o_case.getValue('position'),
+				pos_name: o_case.getDisplayValue('position'),
+				pos_start_date: o_case.getValue('vacancy_date'),
+				loc: o_case.getValue('location'),
+				loc_name: o_case.getDisplayValue('location')
 			});
 		}
 		
@@ -158,7 +184,7 @@
         <sys_created_on>2017-05-31 19:26:16</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>a656cd8adb4332008a9cf6fdbf9619ad</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>45</sys_mod_count>
         <sys_name>Position Wishlist Dv1</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -166,7 +192,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sp_widget_a656cd8adb4332008a9cf6fdbf9619ad</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-31 19:40:17</sys_updated_on>
+        <sys_updated_on>2017-06-01 20:03:36</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default table-responsive-vertical shadow-z-1" scrolling="no">
   
 	<div class="panel-heading">
@@ -190,19 +216,18 @@
 
           <tr>
             <th><b>Position</b></th>
-            <th><b>Country</b></th>
-            <th><b>City</b></th>
-            <th><b>Start Date</b></th>
-            <th><b>End Date</b></th>
+            <th><b>Location</b></th>
+            <th><b>Comments</b></th>
           </tr>
 
           <tbody>
             <tr ng-repeat="item in c.list track by $index">
-              <td class = "pointer" ng-click="c.openSavedPosition(item)" ><a>{{ item.pos_name }}</a></td>                      
-              <td style="color: black;">{{ item.loc_country }}</td>
-              <td style="color: black;">{{ item.loc_city }}</td>
-              <td style="color: black;">{{ item.pos_start_date }}</td>
-              <td style="color: black;">{{ item.pos_end_date }}</td>
+              <td class="pointer">
+              	<span id="{{item.case_id}}" type="button" class="saved" ng-click="c.removePosition(item)"><i class="fa fa-star" aria-hidden="true"></i></span>
+              	&nbsp; <a ng-click="c.getInfo(item)">{{ item.pos_name }}</a>
+              </td>                      
+              <td style="color: black;">{{ item.loc_name }}</td>
+              <td class="pointer" style="color: black;" ng-click="c.openSavedPosition(item)">{{ item.saved_comments }}</td>
           	</tr>
           </tbody>
           

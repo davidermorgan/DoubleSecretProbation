@@ -11,9 +11,9 @@
             <plural>Employees</plural>
             <sys_class_name>sys_documentation</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-05-21 21:19:06</sys_created_on>
+            <sys_created_on>2017-06-01 18:24:00</sys_created_on>
             <sys_customer_update>false</sys_customer_update>
-            <sys_id>71400afedbb632008a9cf6fdbf961951</sys_id>
+            <sys_id>04b14616db4332008a9cf6fdbf96195d</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>Employee</sys_name>
             <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
@@ -22,7 +22,7 @@
             <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
             <sys_update_name>sys_documentation_x_107345_asgmt_employee_bid_employee_en</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-05-21 21:19:06</sys_updated_on>
+            <sys_updated_on>2017-06-01 18:24:00</sys_updated_on>
             <url/>
             <url_target/>
         </sys_documentation>

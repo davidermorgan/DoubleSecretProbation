@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update>
+    <sys_documentation element="" label="Employee Application" language="en" table="x_107345_asgmt_employee_application">
+        <sys_documentation action="INSERT_OR_UPDATE">
+            <element/>
+            <help/>
+            <hint/>
+            <label>Employee Application</label>
+            <language>en</language>
+            <name>x_107345_asgmt_employee_application</name>
+            <plural>Employee Applications</plural>
+            <sys_class_name>sys_documentation</sys_class_name>
+            <sys_created_by>admin</sys_created_by>
+            <sys_created_on>2017-06-01 23:03:29</sys_created_on>
+            <sys_customer_update>false</sys_customer_update>
+            <sys_id>86a10fd6db8332008a9cf6fdbf961965</sys_id>
+            <sys_mod_count>0</sys_mod_count>
+            <sys_name>Employee Application</sys_name>
+            <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+            <sys_policy/>
+            <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+            <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+            <sys_update_name>sys_documentation_x_107345_asgmt_employee_application__en</sys_update_name>
+            <sys_updated_by>admin</sys_updated_by>
+            <sys_updated_on>2017-06-01 23:03:29</sys_updated_on>
+            <url/>
+            <url_target/>
+        </sys_documentation>
+    </sys_documentation>
+</record_update>

@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <database>
-    <element extends="task" label="Employee Bid" max_length="40" name="x_107345_asgmt_employee_bid" sizeclass="2" type="collection">
-        <element default="javascript:gs.getUserID();" display="true" dynamic_default_value="2fd8e97bef3221002841f7f775c0fbc1" label="Employee" max_length="32" name="employee" read_only="true" reference="sys_user" type="reference" use_dynamic_default="true"/>
+    <element label="Employee Bid" max_length="40" name="x_107345_asgmt_employee_bid" type="collection">
+        <element label="Cycle" max_length="32" name="cycle" reference="x_107345_asgmt_cycle" type="reference"/>
+        <element default="javascript:gs.getUserID();" display="true" dynamic_default_value="2fd8e97bef3221002841f7f775c0fbc1" label="Employee" max_length="32" name="employee" reference="sys_user" type="reference" use_dynamic_default="true"/>
+        <element label="Position 1" max_length="32" name="position_1" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 2" max_length="32" name="position_2" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 3" max_length="32" name="position_3" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 4" max_length="32" name="position_4" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 5" max_length="32" name="position_5" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 6" max_length="32" name="position_6" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 7" max_length="32" name="position_7" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element label="Position 8" max_length="32" name="position_8" reference="x_107345_asgmt_open_postion_case" type="reference"/>
+        <element choice="3" default="Draft" label="Status" max_length="40" name="status" type="choice">
+            <choice>
+                <element label="Draft" sequence="1" value="Draft"/>
+                <element label="Submitted" sequence="2" value="Submitted"/>
+            </choice>
+        </element>
+        <index name="index">
+            <element name="position_6"/>
+        </index>
+        <index name="index2">
+            <element name="position_7"/>
+        </index>
+        <index name="index3">
+            <element name="position_8"/>
+        </index>
+        <index name="index4">
+            <element name="position_1"/>
+        </index>
+        <index name="index5">
+            <element name="position_2"/>
+        </index>
+        <index name="index6">
+            <element name="cycle"/>
+        </index>
+        <index name="index7">
+            <element name="position_3"/>
+        </index>
+        <index name="index8">
+            <element name="position_4"/>
+        </index>
+        <index name="index9">
+            <element name="position_5"/>
+        </index>
     </element>
 </database>

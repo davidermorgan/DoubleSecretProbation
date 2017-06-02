@@ -32,20 +32,68 @@
 		c.list = response.data.list;
 
 		//Get unique values
+		c.filters = []
+		
 		c.location_list = [];
-		c.department_list = [];
+		c.filters.push({
+			id: 'location',
+			label: 'Location',
+			glyph: 'fa fa-globe',
+			model: 'location_select',
+			unique_list: 'location_list',
+			attribute: 'loc_name'
+		})
+		c.backstop_list = [];
+		c.filters.push({
+			id: 'backstop',
+			label: 'Backstop',
+			glyph: 'fa fa-building',
+			model: 'backstop_select',
+			unique_list: 'backstop_list',
+			attribute: 'backstop_desc'
+		})
+		c.language_list = [];
+		c.filters.push({
+			id: 'language',
+			label: 'Language',
+			glyph: 'fa fa-building',
+			model: 'language_select',
+			unique_list: 'language_list',
+			attribute: 'lang_desc'
+		})
+		c.languagescore_list = [];
+		c.filters.push({
+			id: 'languagescore',
+			label: 'Language Score',
+			glyph: 'fa fa-building',
+			model: 'languagescore_select',
+			unique_list: 'languagescore_list',
+			attribute: 'langscore_desc'
+		})
+		c.paygrade_list = [];
+		c.filters.push({
+			id: 'paygrade',
+			label: 'Pay Grade',
+			glyph: 'fa fa-building',
+			model: 'paygrade_select',
+			unique_list: 'paygrade_list',
+			attribute: 'paygrade_desc'
+		})
+		c.priority_list = [];
+		c.filters.push({
+			id: 'priority',
+			label: 'Priority',
+			glyph: 'fa fa-building',
+			model: 'priority_select',
+			unique_list: 'priority_list',
+			attribute: 'priority_desc'
+		})
 		
 		c.showNavBar = false;
 		
 		//Create map, markers, and populate unique lists
 		initializeMap();
 		
-	});
-	
-	/* off-canvas sidebar toggle */
-	$('[data-toggle=offcanvas]').click(function() {
-		$('.row-offcanvas-left').toggleClass('active');
-		//$('.collapse').toggleClass('in').toggleClass('hidden-xs').toggleClass('visible-xs');
 	});
 	
 	c.checkNav = function() {
@@ -76,9 +124,13 @@
 		}, 400);
 	}
 	
-	getInfo = function() {		
+	getInfo = function(marker_index) {		
 		spModal.open({
-			title: 'More Information'
+			title: $scope.oms.a[marker_index].pos_name,
+			widget: 'form_dv2',
+			widgetInput: {table: 'x_107345_asgmt_open_postion_case', sys_id: $scope.oms.a[marker_index].sys_id, view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
 		}).then(function(){
     });
 	}
@@ -93,8 +145,8 @@
 	saveRemovePosition = function(marker_index) {
 		
 		if ($scope.oms.a[marker_index].pos_saved) {
-			console.log('delete');
-			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "unsaved");
+			//console.log('delete');
+			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "pointer unsaved");
 			$scope.oms.a[marker_index].pos_saved = false;
 			c.server.get({
 				action: 'unsave_position',
@@ -105,8 +157,8 @@
 				}
 			});
 		} else {
-			console.log('save');
-			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "saved");
+			//console.log('save');
+			document.getElementById($scope.oms.a[marker_index].sys_id).setAttribute("class", "pointer saved");
 			$scope.oms.a[marker_index].pos_saved = true;
 			c.server.get({
 				action: 'save_position',
@@ -124,46 +176,27 @@
 
 		for (var i=0; i<c.list.length; i++) {
 			var marker = $scope.oms.a[i];
-			
-			//filter locations
-			if (c.loaction_select) {
-				var locations = c.loaction_select;
-				/*
-				if (countries.length !== 0) {
-					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
-				} else {
-					document.getElementById("filterIcon").setAttribute("class", "panel-title unfiltered");
-				}
-				*/
-				
-				// If is same category or category not picked
-				if (locations.indexOf(marker.loc_name) != -1 || locations.length === 0) {
-					marker.setVisible(true);
-				}
-				// Categories don't match 
-				else {
-					marker.setVisible(false);
-				}
-			}
-			
-			//filter departments
-			if (c.department_select) {
-				var departments = c.department_select;
-				/*
-				if (cities.length !== 0) {
-					document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
-				} else {
-					document.getElementById("filterIcon").setAttribute("class", "panel-title unfiltered");
-				}
-				*/
-				
-				// If is same category or category not picked
-				if (departments.indexOf(marker.department_name) != -1 || departments.length === 0) {
-					marker.setVisible(true);
-				}
-				// Categories don't match 
-				else {
-					marker.setVisible(false);
+
+			for (var z=0; z<c.filters.length; z++) {				
+				if(c[c.filters[z].model]) {
+					var model = c[c.filters[z].model];
+					
+					/*
+					if (cities.length !== 0) {
+						document.getElementById("filterIcon").setAttribute("class", "panel-title filtered");
+					} else {
+						document.getElementById("filterIcon").setAttribute("class", "panel-title unfiltered");
+					}
+					*/
+
+					// If is same category or category not picked
+					if (model.indexOf(marker[c.filters[z].attribute]) != -1 || model.length === 0) {
+						marker.setVisible(true);
+					}
+					// Categories don't match 
+					else {
+						marker.setVisible(false);
+					}
 				}
 			}
 			
@@ -208,14 +241,12 @@
       });
 
 			var createMarker = function (info){
-				
-				//Store unique countries
-				if (c.location_list.indexOf(info.loc_name)===-1) {
-					c.location_list.push(info.loc_name);
-				}
-				//Store unique departments (organizations)
-				if (c.department_list.indexOf(info.department_name)===-1) {
-					c.department_list.push(info.department_name);
+
+				//Store unique values for filters			
+				for (var x=0; x<c.filters.length; x++) {
+					if (c[c.filters[x].unique_list].indexOf(info[c.filters[x].attribute])===-1) {
+						c[c.filters[x].unique_list].push(info[c.filters[x].attribute]);
+					}
 				}
 
 				var marker = new google.maps.Marker({
@@ -275,26 +306,6 @@
 						$scope.infoWindow.open($scope.map, marker);
 					})
 				);
-				
-				/*
-				google.maps.event.addListener(
-					marker,
-					'click', 
-					(function(marker, $scope){
-						return function() {
-							var marker_content = '<div><div ng-include="\'star-button\'"></div></div>';
-							$scope.sys_id = marker.sys_id;
-							$scope.marker_index = $scope.oms.a.length-1;
-							$scope.win = $scope.infoWindow;
-							//$scope.button_id = marker.task_id;
-							var compiledContent = $compile(marker_content)($scope);
-							$scope.$apply();
-							$scope.infoWindow.setContent(compiledContent[0].innerHTML);
-							$scope.infoWindow.open($scope.map, marker);
-						};
-				})(marker, $scope)
-				);
-				*/
 
 			}
 
@@ -309,14 +320,6 @@
 			
 			initializeMapClusters();
 		
-			/*
-			$scope.markerCluster.addListener('clusterclick', function(cluster) {
-				//do stuff here
-			});
-			*/
-			
-		//});
-		
 	}
 	
 	function createContent(marker) {
@@ -325,9 +328,9 @@
 			'<p><span class="panel-title">'
 		
 		if (marker.pos_saved) {
-			marker_content += '<span id="'+marker.sys_id+'" type="button" class="saved" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';	
+			marker_content += '<span id="'+marker.sys_id+'" type="button" class="pointer saved" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';	
 		} else {
-			marker_content += '<span id="'+marker.sys_id+'" type="button" class="grey" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';
+			marker_content += '<span id="'+marker.sys_id+'" type="button" class="pointer grey" onclick="saveRemovePosition('+marker.index+')"><i class="fa fa-star" aria-hidden="true"></i></span>';
 		}
 		
 		marker_content += '<span>' + '&nbsp; ' + marker.pos_name + '</span>' +
@@ -336,7 +339,7 @@
 		marker_content += '<div class="row">' +
       '<div class="col-xs-12">' +
 				'<p style="border-bottom: 1px solid black;">' +
-					'<a href="mailto:'+marker.contact_email+'?subject=Notice of Expression - '+marker.pos_name+'"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp; Express Interest</a>' +
+					'<a class="pointer" href="mailto:'+marker.contact_email+'?subject=Notice of Expression - '+marker.pos_name+'"><i class="fa fa-envelope-o" aria-hidden="true"></i>&nbsp; Express Interest</a>' +
 				'</p>' +
 				'<div class="row">' +
 					'<div class="col-xs-6">' +
@@ -354,7 +357,7 @@
     '<div class="row">' +
       '<div class="col-xs-12">' +
 				'<p class="divider">' +
-					'<a href="#" onclick="getInfo()"><i class="fa fa-info" aria-hidden="true"></i>&nbsp; More Information</a>' +
+					'<a class="pointer" href="#" onclick="getInfo('+marker.index+')"><i class="fa fa-info" aria-hidden="true"></i>&nbsp; More Information</a>' +
 				'</p>' +
 				'<div class="row">' +
 					'<div class="col-xs-6">' +
@@ -615,7 +618,7 @@
         <sys_created_on>2017-05-31 17:13:20</sys_created_on>
         <sys_customer_update>true</sys_customer_update>
         <sys_id>9be72482db4332008a9cf6fdbf961987</sys_id>
-        <sys_mod_count>34</sys_mod_count>
+        <sys_mod_count>74</sys_mod_count>
         <sys_name>Position Map Dv4</sys_name>
         <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
         <sys_policy/>
@@ -623,7 +626,7 @@
         <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
         <sys_update_name>sp_widget_9be72482db4332008a9cf6fdbf961987</sys_update_name>
         <sys_updated_by>admin</sys_updated_by>
-        <sys_updated_on>2017-05-31 20:12:34</sys_updated_on>
+        <sys_updated_on>2017-06-02 04:32:43</sys_updated_on>
         <template><![CDATA[<div class="panel panel-default">
   
 	<div class="panel-heading">
@@ -652,14 +655,12 @@
               <li>
                 <p class="divider"></p>
               </li>
-              <li>
-                <i class="fa fa-globe" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Location</span>
-              	<multiselect ng-if="c.showNavBar"  id="location" ng-model="c.loaction_select" options="c.location_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
-            	</li>
-              <li>
-                <i class="fa fa-building" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; Department</span>
-              	<multiselect  ng-if="c.showNavBar" id="department" ng-model="c.department_select" options="c.department_list" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
-            	</li>
+              <span ng-repeat="item in c.filters track by $index">
+                <li>
+                  <i class="{{item.glyph}}" aria-hidden="true"></i><span ng-if="c.showNavBar">&nbsp; {{item.label}}</span>
+                  <multiselect  ng-if="c.showNavBar" id="item.id" ng-model="c[item.model]" options="c[item.unique_list]" show-search="true" show-unselect-all="true" ng-change="c.filter()"></multiselect>
+                </li>
+              </span>
             </ul>
           </div>
           <!-- /sidebar -->

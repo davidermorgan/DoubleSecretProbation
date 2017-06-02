@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<record_update table="sp_widget">
+    <sp_widget action="INSERT_OR_UPDATE">
+        <client_script><![CDATA[function($rootScope,$scope,$timeout,spModal,snRecordWatcher) {
+  /* widget controller */
+  var c = this;
+	
+	//Get option values
+	c.title = c.options.title || 'My Bid';
+	c.glyph = c.options.glyph || '';
+	
+	console.log('Employee Bid Options');
+	console.log(c.options);
+	
+	//Set value to show loading spinner
+	c.data.loading = true;
+	
+	//After page initially loads re-call server script to load data
+	initialize();
+	
+	function initialize() {
+		c.server.get({
+			action: 'retrieve_data'
+		}).then(function(response) {
+
+			//Set value to hide loading spinner
+			c.data.loading = false;
+
+			console.log('Employee Bid Response');
+			console.log(response);
+
+			//Get data
+			c.sys_user = response.data.sys_user;
+			c.sys_user_name = response.data.sys_user_name;
+			c.hasBid = response.data.hasBid;
+			c.submittedBid = response.data.submittedBid;
+			c.list = response.data.list;
+
+		});
+		
+	}
+	
+	c.createBid = function() {  
+		spModal.open({
+			title: c.sys_user_name + "'s Bid",
+			widget: 'form_dv3',
+			widgetInput: {table: 'x_107345_asgmt_employee_bid', view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	c.editBid = function(item) {  
+		spModal.open({
+			title: c.sys_user_name + "'s Bid",
+			widget: 'form_dv3',
+			widgetInput: {table: 'x_107345_asgmt_employee_bid', sys_id: c.list[0].sys_id, view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	c.submitBid = function(item) {  
+		console.log('submit bid');
+		c.server.get({
+			action: 'submit_bid',
+			bid: c.list
+		}).then(function(response) {
+			initialize();
+		});
+	}
+	
+	c.getInfo = function(item) {		
+		spModal.open({
+			title: item.pos_name,
+			widget: 'form_dv2',
+			widgetInput: {table: 'x_107345_asgmt_open_postion_case', sys_id: item.case_id, view: 'Employee_View'},
+			size: 'lg' ,
+			buttons: []
+		}).then(function(){
+    });
+	}
+	
+	//DM20170427 start: listen for recordAdded event and update table
+	$rootScope.$on('saveBid', function(event,data) {
+		$timeout(function() {
+			initialize();
+		})
+	})
+	//DM20170427 end
+
+}]]></client_script>
+        <controller_as>c</controller_as>
+        <css/>
+        <data_table>sp_instance</data_table>
+        <demo_data/>
+        <description/>
+        <docs/>
+        <field_list>title,glyph</field_list>
+        <has_preview>false</has_preview>
+        <id>position_bid_dv1</id>
+        <internal>false</internal>
+        <link/>
+        <name>Position Bid Dv1</name>
+        <option_schema/>
+        <public>false</public>
+        <roles/>
+        <script><![CDATA[(function() {
+  /* populate the 'data' object */
+  /* e.g., data.table = $sp.getValue('table'); */
+	
+	//Get user sys_id
+	var sys_user = gs.getUserID();
+	var sys_user_name = gs.getUserDisplayName();
+	data.sys_user = sys_user;
+	data.sys_user_name = sys_user_name;
+	
+	//Do nothing on initial page load
+	if (!input) {
+		return;
+	}
+	
+	//After page initially loads get data
+	if (input && input.action == 'retrieve_data') {
+		
+		data.list = [];
+		data.hasBid = false;
+		data.submittedBid = false;
+		
+		var query1 = 'employee=' + sys_user;
+		var bid = new GlideRecord('x_107345_asgmt_employee_bid');
+		bid.addEncodedQuery(query1);
+		bid.query();
+
+		data.hasBid = bid.hasNext();
+		
+		var o_case;
+
+		while(bid.next()) {
+			
+			if (bid.getValue('status')=='Submitted') {
+				data.submittedBid = true;
+			} else {
+				data.submittedBid = false;
+			}
+
+			for (var i=1;i<=8;i++) {
+				if (i==1) {
+					o_case = bid.position_1.getRefRecord();
+				} else if (i==2) {
+					o_case = bid.position_2.getRefRecord();
+				} else if (i==3) {
+					o_case = bid.position_3.getRefRecord();
+				} else if (i==4) {
+					o_case = bid.position_4.getRefRecord();
+				} else if (i==5) {
+					o_case = bid.position_5.getRefRecord();
+				} else if (i==6) {
+					o_case = bid.position_6.getRefRecord();
+				} else if (i==7) {
+					o_case = bid.position_7.getRefRecord();
+				} else {
+					o_case = bid.position_8.getRefRecord();
+				}
+				
+				data.list.push({
+					sys_id: bid.getValue('sys_id'),
+					bid_cycle: bid.getValue('cycle'),
+					case_id: o_case.getValue('sys_id'),
+					pos_rank: i,
+					pos_name: o_case.getDisplayValue('position'),
+					pos_start_date: o_case.getValue('vacancy_date'),
+					pos_priority: o_case.getValue('position_priority'),
+					pos_priority_name: o_case.getDisplayValue('position_priority'),
+					loc: o_case.getValue('location'),
+					loc_name: o_case.getDisplayValue('location')
+				});
+			}
+		}
+		
+	}
+	
+	if (input && input.action == 'submit_bid') {		
+		var x = 0;
+		
+		//Catch invalid bid submissions
+		for (x=0; x<input.bid.length; x++) {
+			if (input.bid[x].case_id == null) {
+				gs.addErrorMessage('You must select 8 positions before you can submit your bid');
+				return false;
+			}
+		}
+		
+		//Update bid record
+		var query2= 'sys_id=' + input.bid[0].sys_id;
+		var u_bid = new GlideRecord('x_107345_asgmt_employee_bid');
+		u_bid.addEncodedQuery(query2);
+		u_bid.query();
+		while(u_bid.next()) {
+			u_bid.status = 'Submitted';
+			u_bid.update();
+		}
+		
+		//Create employee applications
+		for (x=0; x<input.bid.length; x++) {
+			var app = new GlideRecord('x_107345_asgmt_employee_application');
+			app.initialize();
+			app.parent = input.bid[x].case_id;
+			app.opened_for = data.sys_user;
+			app.bid = input.bid[x].sys_id;
+			app.rank = input.bid[x].pos_rank;
+			app.cycle = input.bid[x].bid_cycle;
+			app.short_description = data.sys_user_name + "'s application for " + input.bid[x].pos_name;
+			app.insert();
+		}
+		
+		gs.addInfoMessage('Bid Submitted!');
+		return true;
+	}
+
+})();]]></script>
+        <servicenow>false</servicenow>
+        <sys_class_name>sp_widget</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2017-06-01 17:43:20</sys_created_on>
+        <sys_customer_update>true</sys_customer_update>
+        <sys_id>1068fd9edb0332008a9cf6fdbf961965</sys_id>
+        <sys_mod_count>128</sys_mod_count>
+        <sys_name>Position Bid Dv1</sys_name>
+        <sys_package display_value="Asgmt" source="x_107345_asgmt">00e604acdba232008a9cf6fdbf961994</sys_package>
+        <sys_policy/>
+        <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
+        <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
+        <sys_update_name>sp_widget_1068fd9edb0332008a9cf6fdbf961965</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2017-06-02 01:55:22</sys_updated_on>
+        <template><![CDATA[<div class="panel panel-default table-responsive-vertical shadow-z-1" scrolling="no">
+
+  <div class="panel-heading">
+    <span class="panel-title"><i class="fa fa-{{c.glyph}}" aria-hidden="true"></i>&nbsp; {{c.title}}</span>
+  </div>
+
+  <div class="panel-body" ng-if="c.data.loading">
+
+    <span><i class="fa fa-spinner fa-spin fa-3x fafw"></i>
+      <span class="sr-only">Loading...</span>
+    </span>
+
+  </div>
+
+  <div class="panel-body" ng-if="!c.data.loading">
+
+    <div class="row">
+      <div class="col-xs-12">
+
+        <div class="row" ng-if="!c.hasBid">
+          <div class="col-xs-12" style="padding-bottom: 4px;">
+            <button name="createBid" type="button" class="btn btn-primary btn-block" ng-click="c.createBid()">Create New Bid</button>
+          </div>
+        </div>
+        
+        <div class="row" ng-if="c.hasBid && !c.submittedBid">
+          <div class="col-xs-6" style="padding-bottom: 4px;">
+            <button name="editBid" type="button" class="btn btn-primary btn-block" ng-click="c.editBid()">Edit Bid</button>
+          </div>
+          <div class="col-xs-6" style="padding-bottom: 4px;">
+            <button name="submitBid" type="button" class="btn btn-primary btn-block" ng-click="c.submitBid()">Submit Bid</button>
+          </div>
+        </div>
+        
+        <div class="row" ng-if="c.submittedBid">
+          <div class="col-xs-12" style="padding-bottom: 4px;">
+            <button type="button" class="btn btn-primary btn-block disabled">Bid Submitted!</button>
+          </div>
+        </div>
+
+        <table id="table" class="table table-sm table-responsive"  ng-if="c.hasBid">
+
+          <tr>
+            <th><b>Position</b></th>
+            <th><b>Location</b></th>
+            <th><b>Priority</b></th>
+          </tr>
+
+          <tbody>
+            <tr ng-repeat="item in c.list track by $index">
+              <td style="color: black;">&nbsp; {{ item.pos_rank }}&nbsp;&nbsp; <a class = "pointer" ng-click="c.getInfo(item)">{{ item.pos_name }}</a></td>                      
+              <td style="color: black;">{{ item.loc_name }}</td>
+              <td style="color: black;">{{ item.pos_priority_name }}</td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+
+  </div>]]></template>
+    </sp_widget>
+</record_update>

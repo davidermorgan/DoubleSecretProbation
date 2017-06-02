@@ -18,16 +18,16 @@
         <sys_ui_form_section action="INSERT_OR_UPDATE">
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-05-31 13:41:21</sys_created_on>
+            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>ce677f35db0332008a9cf6fdbf9619e2</sys_id>
+            <sys_id>5d3b43dadb8332008a9cf6fdbf96195c</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_overrides/>
             <sys_ui_form display_value="x_107345_asgmt_open_postion_case" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">f5677f35db0332008a9cf6fdbf9619e2</sys_ui_form>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">71677f35db0332008a9cf6fdbf9619e2</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-05-31 13:41:21</sys_updated_on>
+            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
         </sys_ui_form_section>
         <sys_ui_form action="INSERT_OR_UPDATE">
             <name>x_107345_asgmt_open_postion_case</name>
