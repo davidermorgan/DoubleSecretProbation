@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <record_update>
-    <sys_ui_section caption="Case Information" section_id="d53b43dadb8332008a9cf6fdbf96195c" sys_domain="global" table="x_107345_asgmt_open_postion_case" version="3" view="">
+    <sys_ui_section caption="Case Information" section_id="9c43d44bdb8732008a9cf6fdbf961984" sys_domain="global" table="x_107345_asgmt_open_postion_case" version="3" view="">
         <sys_ui_element action="INSERT_OR_UPDATE">
             <element>number</element>
             <position>0</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>553b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9843d44bdb8732008a9cf6fdbf961991</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -19,13 +19,13 @@
             <element>opened_for</element>
             <position>1</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d53b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1c43d44bdb8732008a9cf6fdbf961991</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -33,13 +33,13 @@
             <element>request_category</element>
             <position>2</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>593b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9c43d44bdb8732008a9cf6fdbf961991</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -47,13 +47,13 @@
             <element>hr_profile</element>
             <position>3</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d93b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1043d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -61,13 +61,13 @@
             <element>pdf_template</element>
             <position>4</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>5d3b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9043d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -75,13 +75,13 @@
             <element>skills</element>
             <position>5</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>dd3b43dadb8332008a9cf6fdbf961963</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1443d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -89,13 +89,13 @@
             <element>.split</element>
             <position>6</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>513b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9443d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type>.split</type>
         </sys_ui_element>
@@ -103,13 +103,13 @@
             <element>state</element>
             <position>7</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d13b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1843d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -117,13 +117,13 @@
             <element>priority</element>
             <position>8</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>553b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9843d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -131,13 +131,13 @@
             <element>opened_at</element>
             <position>9</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d53b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1c43d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -145,13 +145,13 @@
             <element>opened_by</element>
             <position>10</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>593b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9c43d44bdb8732008a9cf6fdbf961992</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -159,13 +159,13 @@
             <element>assignment_group</element>
             <position>11</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d93b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1043d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -173,13 +173,13 @@
             <element>assigned_to</element>
             <position>12</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>5d3b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9043d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -187,13 +187,13 @@
             <element>assigned_vendor</element>
             <position>13</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>dd3b43dadb8332008a9cf6fdbf961964</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1443d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -201,13 +201,13 @@
             <element>vendor_reference</element>
             <position>14</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>513b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9443d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -215,13 +215,13 @@
             <element>watch_list</element>
             <position>15</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d13b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1843d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -229,13 +229,13 @@
             <element>template</element>
             <position>16</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>553b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9843d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -243,13 +243,13 @@
             <element>.end_split</element>
             <position>17</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d53b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1c43d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type>.end_split</type>
         </sys_ui_element>
@@ -257,13 +257,13 @@
             <element>short_description</element>
             <position>18</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>593b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9c43d44bdb8732008a9cf6fdbf961993</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -271,13 +271,13 @@
             <element>activity.xml</element>
             <position>19</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d93b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1043d44bdb8732008a9cf6fdbf961994</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter display_value="Activities (filtered)">444ea5c6bf310100e628555b3f0739d6</sys_ui_formatter>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type>formatter</type>
         </sys_ui_element>
@@ -285,13 +285,13 @@
             <element>work_notes</element>
             <position>20</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>5d3b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9043d44bdb8732008a9cf6fdbf961994</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -299,13 +299,13 @@
             <element>comments</element>
             <position>21</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>dd3b43dadb8332008a9cf6fdbf961965</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1443d44bdb8732008a9cf6fdbf961994</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -313,13 +313,13 @@
             <element>cxs_table_search.xml</element>
             <position>22</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>513b43dadb8332008a9cf6fdbf961966</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>9443d44bdb8732008a9cf6fdbf961994</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter display_value="Contextual Search Results">11eb1622eb1121003623666cd206fe56</sys_ui_formatter>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type>formatter</type>
         </sys_ui_element>
@@ -327,13 +327,13 @@
             <element>request_category.type</element>
             <position>23</position>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
-            <sys_id>d13b43dadb8332008a9cf6fdbf961966</sys_id>
+            <sys_created_on>2017-06-03 18:16:57</sys_created_on>
+            <sys_id>1843d44bdb8732008a9cf6fdbf961994</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_ui_formatter/>
-            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">d53b43dadb8332008a9cf6fdbf96195c</sys_ui_section>
+            <sys_ui_section caption="Case Information" display_value="Case Information" name="x_107345_asgmt_open_postion_case" sys_domain="global" view="Default view">9c43d44bdb8732008a9cf6fdbf961984</sys_ui_section>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:57</sys_updated_on>
             <sys_user/>
             <type/>
         </sys_ui_element>
@@ -344,11 +344,11 @@
             <roles/>
             <sys_class_name>sys_ui_section</sys_class_name>
             <sys_created_by>admin</sys_created_by>
-            <sys_created_on>2017-06-01 23:45:13</sys_created_on>
+            <sys_created_on>2017-06-03 18:16:56</sys_created_on>
             <sys_customer_update>true</sys_customer_update>
             <sys_domain>global</sys_domain>
             <sys_domain_path>/</sys_domain_path>
-            <sys_id>d53b43dadb8332008a9cf6fdbf96195c</sys_id>
+            <sys_id>9c43d44bdb8732008a9cf6fdbf961984</sys_id>
             <sys_mod_count>0</sys_mod_count>
             <sys_name>Case Information</sys_name>
             <sys_overrides/>
@@ -356,9 +356,9 @@
             <sys_policy/>
             <sys_replace_on_upgrade>false</sys_replace_on_upgrade>
             <sys_scope display_value="Asgmt">00e604acdba232008a9cf6fdbf961994</sys_scope>
-            <sys_update_name>sys_ui_section_d53b43dadb8332008a9cf6fdbf96195c</sys_update_name>
+            <sys_update_name>sys_ui_section_9c43d44bdb8732008a9cf6fdbf961984</sys_update_name>
             <sys_updated_by>admin</sys_updated_by>
-            <sys_updated_on>2017-06-01 23:45:13</sys_updated_on>
+            <sys_updated_on>2017-06-03 18:16:56</sys_updated_on>
             <sys_user/>
             <title>false</title>
             <view display_value="Default view" name="NULL">Default view</view>
